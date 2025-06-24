@@ -1,0 +1,16 @@
+<ndc-dynamic [ndcDynamicComponent]="uiForm?.uiTypeForms['lineal']" [ndcDynamicInputs]="{template : renderComponentsTemplate , components : fieldsForm}">
+</ndc-dynamic>
+<ng-template #renderComponentsTemplate>
+  <div class="row-components-container">
+    <ng-container *ngFor="let rowComponents of components">
+      <div [ngClass]="isMobile ? 'row-components mobile' : 'row-components'">
+      <ng-container *ngFor="let component of rowComponents">
+        <div [style.width.%]="isMobile ? '100' : component?.layout?.numColumns || '100'" class="component-container" #componentContainer>
+          <ndc-dynamic [ndcDynamicComponent]="GenericFormComponentComponent"
+                       [ndcDynamicInputs]="{component, valuesForm, uiForm, referenceContainerComponent : componentContainer}"></ndc-dynamic>
+        </div>
+      </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

@@ -1,0 +1,91 @@
+[
+    {
+        "Titulo": "REPORTE DE TRÁMITES SOLICITADOS, OTORGADOS Y NEGADOS",
+        "FechaGeneracion": "Fecha de Generación 09 de octubre del 2023",
+        "Periodo": "Periodo: 30/07/2023 hasta el 09/10/2023",
+        "TituloPagina": "Reporte del estado actual de los trámites solictados, otorgados y negados",
+        "Tramites": [
+            {
+                "RadicadoBia": "0000-0008-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-1111-2023",
+                "UsuarioYOEntidad": "",
+                "TipodeSolicitud": "",
+                "TipodeTramite": "",
+                "Municipio": "",
+                "Resultado": "Negado"
+            },
+            {
+                "RadicadoBia": "0000-0009-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-1112-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Cumaral",
+                "Resultado": "Otorgado"
+            },
+            {
+                "RadicadoBia": "0000-0010-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-3333-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Granada",
+                "Resultado": "Otorgado"
+            },
+            {
+                "RadicadoBia": "0000-0011-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-4444-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "Concesión de aguas superficiales",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Cumaral",
+                "Resultado": "Otorgado"
+            },
+            {
+                "RadicadoBia": "0000-0238-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-1114-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Cumaral",
+                "Resultado": "Negado"
+            },
+            {
+                "RadicadoBia": "0000-0888-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-0888-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "Solcitud de concesion de aguas subterraneas",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Cumaral",
+                "Resultado": "Solicitado"
+            },
+            {
+                "RadicadoBia": "0000-9999-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-9999-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "Solcitud de concesion de aguas subterraneas",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Cumaral",
+                "Resultado": "Solicitado"
+            },
+            {
+                "RadicadoBia": "0000-0018-2023",
+                "Fecha": "2023-09-08T00:00:00",
+                "Expediente": "0000-0018-2023",
+                "UsuarioYOEntidad": "Roger Roldan",
+                "TipodeSolicitud": "Solcitud de concesion de aguas subterraneas",
+                "TipodeTramite": "Nuevo",
+                "Municipio": "Cumaral",
+                "Resultado": ""
+            }
+        ],
+        "TotaldeTramites": 8
+    }
+]

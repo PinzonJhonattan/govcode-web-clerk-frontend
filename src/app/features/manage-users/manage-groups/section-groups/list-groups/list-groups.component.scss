@@ -1,0 +1,14 @@
+.item-group {
+  width: 100%;
+  @apply flex items-center;
+}
+
+.actionGroup-icon{
+  font-size: 1.1rem;
+  height: 1.1rem;
+  width: 1.1rem;
+}
+
+::ng-deep {
+  .mat-menu-panel.menu-group-options { width: fit-content; }
+}

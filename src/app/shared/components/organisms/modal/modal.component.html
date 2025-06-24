@@ -1,0 +1,23 @@
+<div class="modal-overlay" *ngIf="isVisible">
+    <div class="modal" #mainModal>
+        <button *ngIf="showCloseButton" class="close-button" (click)="closeModal()" tabindex="0" appAutofocus>
+            <!-- <i class="govco-times tw-text-primary-marine tw-z-90"></i> -->
+            <mat-icon class="mr-3" svgIcon="mat:close"></mat-icon>
+            <!-- X -->
+        </button>
+        <div class="header" tabindex="-1">
+            <div class="modal-title tw-h2-tipografy-govco tw-text-primary-marine" tabindex="-1">
+                <ng-content select="[modalTitle]"></ng-content>
+            </div>
+        </div>
+        <div class="modal-subtitle tw-h6-tipografy-govco tw-text-primary-marine" tabindex="-1">
+            <ng-content select="[modalSubtitle]"></ng-content>
+        </div>
+        <div class="modal-content" tabindex="-1">
+            <ng-content select="[modalContent]"></ng-content>
+        </div>
+        <div [ngClass]="{'button-group-horizontal': buttonOrientation === 'horizontal', 'button-group-vertical': buttonOrientation === 'vertical'}">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

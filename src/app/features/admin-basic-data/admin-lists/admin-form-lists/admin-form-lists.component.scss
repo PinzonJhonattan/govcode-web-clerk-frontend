@@ -1,0 +1,9 @@
+.items-container .card-item-list {
+  @apply flex justify-between;
+  @apply w-[40%];
+  @apply rounded-[8px];
+  @apply p-[8px];
+  -webkit-box-shadow: 1px 5px 9px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 5px 9px -6px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 5px 9px -6px rgba(0, 0, 0, 0.75);
+}

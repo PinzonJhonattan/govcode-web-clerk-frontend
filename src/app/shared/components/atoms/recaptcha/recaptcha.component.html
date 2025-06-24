@@ -1,0 +1,7 @@
+<div class="recaptcha_container">
+  <re-captcha #captchaElem [formControl]="fieldControl" (resolved)="resolved($event)" (error)="rejected($event)" lang="es" *ngIf="fieldControl"></re-captcha>
+  <re-captcha #captchaElem (resolved)="resolved($event)" (error)="rejected($event)" lang="es" *ngIf="!fieldControl"></re-captcha>
+  <p *ngIf="fieldControl?.invalid && (fieldControl?.touched || fieldControl.dirty)" class="error--captcha">
+    Debe completar el Captcha para continuar
+  </p>
+</div>

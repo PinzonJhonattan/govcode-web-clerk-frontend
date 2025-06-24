@@ -1,0 +1,9 @@
+mat-selection-list {
+  padding: 0;
+}
+.input-checkbox-list-container.disabled .input-checkbox-list-label, .input-checkbox-list-container.disabled .input-checkbox-description {
+  color: rgba(0, 0, 0, 0.38);
+}
+.input-checkbox-list .mat-pseudo-checkbox.mat-pseudo-checkbox-checked{
+   background-color: rgba(var(--color-primary)) !important;
+}

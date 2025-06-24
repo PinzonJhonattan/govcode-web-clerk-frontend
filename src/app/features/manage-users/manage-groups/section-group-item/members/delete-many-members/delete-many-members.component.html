@@ -1,0 +1,19 @@
+<ng-container *ngIf="statusLeaveGroupMembers == 'loading'">
+  <div class="flex justify-center items-center ">
+    <div class="flex flex-col items-center gap-2">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      Removiendo {{membersData.infoMembers.length == 1 ? 'miembro' : 'miembros'}} del grupo...
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="statusLeaveGroupMembers == 'init' || statusLeaveGroupMembers == 'error'" >
+  <h1 mat-dialog-title> Remover miembros del grupo
+  </h1>
+  <div mat-dialog-content>
+    ¿Esta seguro que desea remover {{membersData.infoMembers.length == 1 ? 'el miembro' : 'los miembros seleccionados'}} del grupo?
+  </div>
+  <div mat-dialog-actions align="end" >
+    <button mat-button mat-dialog-close>No, Cancelar</button>
+    <button mat-raised-button color="warn" cdkFocusInitial [disabled]="membersData.infoMembers.length === 0" (click)="handleLeaveGroupMembers()">Si, remover {{membersData.infoMembers.length == 1 ? 'miembro' : 'miembros'}}</button>
+  </div>
+</ng-container>

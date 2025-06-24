@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="completeForm($event)">
+  <div [ngStyle]="{marginBottom: '1.25rem'}">
+    <ng-template appLinearInTabForm></ng-template>
+  </div>
+  <ng-template appForm></ng-template>
+
+  <ng-container *ngIf="messageErrorForm !== ''">
+    <app-alert-error [messageError]="messageErrorForm"></app-alert-error>
+  </ng-container>
+
+  <ng-container *ngIf="messageErrorNoDocumentRelated !== ''">
+    <app-alert-error [messageError]="messageErrorNoDocumentRelated"></app-alert-error>
+  </ng-container>
+</form>

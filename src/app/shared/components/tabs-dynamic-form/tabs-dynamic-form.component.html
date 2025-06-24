@@ -1,0 +1,21 @@
+<vex-page-layout mode="card">
+  <vex-page-layout-header class="h-6"></vex-page-layout-header>
+  <vex-page-layout-content class="px-2">
+    <div class="card dynamic-tab">
+      <mat-tab-group [color]="Object.keys(tabsWithErrors).length > 0 ? 'warn' : 'primary'">
+        <ng-container *ngFor="let tabInfo of tabsInfo,let i = index">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <div [ngClass]="{'text-[#f44336]' : tabsWithErrors[tabInfo.id]?.length > 0}">
+                {{tabInfo?.label}}<span *ngIf="tabsWithErrors[tabInfo.id]?.length > 0">*</span>
+              </div>
+            </ng-template>
+            <div class="p-6">
+              <ng-container *ngTemplateOutlet="template; context: { components : tabsComponents[tabInfo.id] }"></ng-container>
+            </div>
+          </mat-tab>
+        </ng-container>
+      </mat-tab-group>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>

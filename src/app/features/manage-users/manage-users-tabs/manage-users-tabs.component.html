@@ -1,0 +1,21 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de usuarios</h2>
+            <vex-breadcrumbs [crumbs]="['Administración de Usuarios']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Usuarios autorizados">
+                    <app-list-of-users [comesFromCreateForm]="comesFromCreateForm"></app-list-of-users>
+            </mat-tab>
+            <mat-tab label="Crear usuario autorizado" *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_CREATE_CLERK_USERS]">
+                    <app-users-form (formSubmitted)="handleFormSubmitted()"></app-users-form>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

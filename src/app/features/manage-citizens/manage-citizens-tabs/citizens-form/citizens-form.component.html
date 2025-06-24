@@ -1,0 +1,124 @@
+
+  <vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center" *ngIf="editCitizen">
+      <div class="container">
+        <h2 class="title m-0">Edición de usuario</h2>
+        <vex-breadcrumbs [crumbs]="['Administración de usuarios']"></vex-breadcrumbs>
+      </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+      <div class="flex justify-center aling-center mt-15" *ngIf="state == 'loading'; else elseBlock">
+        <mat-spinner [diameter]="30"></mat-spinner>
+      </div>
+      <ng-template #elseBlock>
+        <mat-card>
+          <mat-card-content>
+            <form [formGroup]="citizenForm" (ngSubmit)="onSubmit()" class="users-form">
+
+              <div class="flex flex-wrap gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>Usuario</mat-label>
+                  <input matInput formControlName="username">
+                  <mat-error *ngIf="citizenForm.get('username').invalid && citizenForm.get('username').touched">
+                    Usuario requerido
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="firstName">
+                  <mat-error *ngIf="citizenForm.get('firstName').invalid && citizenForm.get('firstName').touched">
+                    Nombre requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>Apellido</mat-label>
+                  <input matInput formControlName="lastName">
+                  <mat-error *ngIf="citizenForm.get('lastName').invalid && citizenForm.get('lastName').touched">
+                    Apellido requerido
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email">
+                  <mat-error *ngIf="citizenForm.get('email').invalid && citizenForm.get('email').touched">
+                    Email inválido
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Roles Actor</mat-label>
+                <mat-select formControlName="roles" multiple [(value)]="selectedRolesFromArray">
+                  <mat-option *ngFor="let role of listOfRoles" [value]="role.id">
+                    {{ role.description }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="citizenForm.get('roles').invalid && citizenForm.get('roles').touched">
+                  Roles requeridos
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Roles de Sistema</mat-label>
+                <mat-select formControlName="systemRoles" multiple [(value)]="selectedSystemRoles">
+                  <mat-option *ngFor="let role of listOfSystemRoles" [value]="role.id" >
+                    {{ role.description }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="flex flex-wrap gap-2" >
+                <mat-form-field *ngIf="!editCitizen" appearance="outline" class="flex-1">
+                  <mat-label>Contraseña</mat-label>
+                  <input matInput formControlName="password" type="password">
+                  <mat-error *ngIf="citizenForm.get('password').invalid && citizenForm.get('password').touched && citizenForm.get('password').errors?.minlength">
+                    Debe tener {{citizenForm.get('password').errors?.minlength.requiredLength}} carácteres de longitud como mínimo
+                  </mat-error>
+                  <mat-error *ngIf="citizenForm.get('password').invalid && citizenForm.get('password').touched && citizenForm.get('password').errors?.required">
+                    Contraseña requerida
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="!editCitizen" appearance="outline" class="flex-1">
+                  <mat-label>Confirmar contraseña</mat-label>
+                  <input matInput formControlName="confirmPassword" type="password">
+                  <mat-error *ngIf="citizenForm.get('confirmPassword').invalid && citizenForm.get('confirmPassword').touched">
+                    Confirmación requerida
+                  </mat-error>
+                  <mat-error *ngIf="citizenForm.get('confirmPassword').errors?.mustMatch">
+                    Las contraseñas deben coincidir
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="flex flex-col gap-4 mb-5 ">
+
+                <div class="toggle-wrapper">
+                  <mat-slide-toggle color="primary" formControlName="enabled">Cuenta Activa</mat-slide-toggle>
+                </div>
+
+                <div class="toggle-wrapper">
+                  <mat-slide-toggle color="primary" formControlName="emailVerified">Email Verificado</mat-slide-toggle>
+                </div>
+              </div>
+              <button mat-raised-button color="primary" type="submit" class="w-[fit-content]">
+                {{ this.editCitizen ? 'Actualizar' : 'Crear' }}
+              </button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </ng-template>
+
+    </vex-page-layout-content>
+
+  </vex-page-layout>
+

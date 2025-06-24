@@ -1,0 +1,27 @@
+<div class="max-w-full" [ngClass]="{'pointer-events-none opacity-40' : fieldControl.disabled}">
+  <label *ngIf="label" class="block input-location-label mb-4" [for]="name">{{label}}  <span *ngIf="fieldControl?.hasValidator(Validators.required)">*</span></label>
+  <p *ngIf="description" class="input-location-description mb-4 text-xs">
+    {{description}}
+  </p>
+  <div class="location-map-container">
+    <div class="md:w-[calc(45%-24px)]">
+      <app-input-text type="number"  [fieldControl]="$any(locationForm).controls.lat" label="Latitud" [readonly]="readonly"></app-input-text>
+    </div>
+    <div class="md:w-[calc(45%-24px)]">
+      <app-input-text type="number" [fieldControl]="$any(locationForm).controls.long" label="Longitud" [readonly]="readonly"></app-input-text>
+    </div>
+    <div class="w-[50%] md:w-[10%] flex items-center">
+      <button
+        class="bg-primary text-white rounded-full w-full h-[3rem] !min-w-[1rem] !max-w-[100%] p-0 "
+        mat-raised-button
+        type="button"
+        (click)="openMap()"
+      >
+        <mat-icon svgIcon="mat:location_on" class="icon-md mr-1 ml-0"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-error class="font-bold mt-[20px] text-xs" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error>
+</div>

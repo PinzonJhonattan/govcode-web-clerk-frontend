@@ -1,0 +1,27 @@
+<form [formGroup]="editNameForm" (ngSubmit)="onSubmit()">
+  <h3 class="text-base font-semibold leading-6 text-gray-900 mb-4">Editar item</h3>
+
+  <mat-form-field appearance="outline" class="w-[100%]">
+    <mat-label>Label</mat-label>
+    <input matInput type="text" formControlName="label" name="label">
+    <mat-error
+      *ngIf="editNameForm.controls['label'].errors?.required && editNameForm.controls['label'].touched">El
+      campo Label es obligatorio.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-[100%]">
+    <mat-label>Valor</mat-label>
+    <input matInput type="text" formControlName="value" name="valor">
+    <mat-error
+      *ngIf="editNameForm.controls['value'].errors?.required && editNameForm.controls['value'].touched">El
+      campo Valor es obligatorio.
+    </mat-error>
+  </mat-form-field>
+
+  <ng-container *ngIf="state === 'loading'">
+    <div class="flex justify-center">
+      <mat-spinner diameter="30"></mat-spinner>
+    </div>
+  </ng-container>
+  <button mat-raised-button class="add-button w-full" [disabled]="">Guardar</button>
+</form>

@@ -1,0 +1,31 @@
+<vex-page-layout>
+    <vex-page-layout-content
+        [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+    >
+      <div class="flex flex-col gap-5">
+        <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_CREATE_CITIZEN_USERS]">
+          <div class="flex">
+            <button mat-raised-button color="primary" (click)="createRole()"><mat-icon svgIcon="mat:assignment_ind" class="mr-3"></mat-icon> Crear rol actor</button>
+          </div>
+        </ng-container>
+
+        <app-complex-table
+          nameTable="Lista de roles de ciudadanos"
+          [stateData]="state"
+          [columns]="columns"
+          [dataSourceTable]="dataTableRoles"
+          [messageReloadButton]="'Actualizar lista de roles'"
+          [hasReloadDataButton]="true"
+          (reloadDataEvent)="reloadRoles()"
+          [actionsButton]="{
+          editRole : editRole.bind(this),
+          deleteRole : deleteRole.bind(this)
+
+        }"
+          [messageNotFound]="'No se han encontrado roles asociados'"
+        ></app-complex-table>
+      </div>
+
+    </vex-page-layout-content>
+</vex-page-layout>

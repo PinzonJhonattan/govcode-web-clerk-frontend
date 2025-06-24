@@ -1,0 +1,154 @@
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="w-full flex flex-col sm:flex-row justify-between container">
+      <div>
+        <h1 class="title mt-0 mb-1">
+          {{ formId ? 'Respuestas de Formulario: ' + formId : 'Todas las Respuestas' }}
+        </h1>
+        <vex-breadcrumbs
+          [crumbs]="formId ? ['Formularios', 'Respuestas', formId] : ['Formularios', 'Respuestas']"
+        ></vex-breadcrumbs>
+      </div>
+
+      <div class="flex">
+        <button
+          class="bg-primary hover:bg-primary-darker text-white px-4 py-2 rounded-md flex items-center mr-2"
+          routerLink="/formularios">
+          <mat-icon svgIcon="mat:arrow_back"></mat-icon>
+          <span class="ml-1">Volver a Formularios</span>
+        </button>
+
+        <button
+          *ngIf="formId && formulario"
+          class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center"
+          [routerLink]="['/formularios', formId]">
+          <mat-icon svgIcon="mat:add"></mat-icon>
+          <span class="ml-1">Nueva Respuesta</span>
+        </button>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container">
+    <div class="-mt-20">
+      <div class="card">
+        <div class="border-b px-6 py-4 flex items-center justify-between">
+          <div>
+            <h2 class="title m-0 text-lg leading-6 font-medium">
+              {{ formulario?.id || (formId ? 'Respuestas del Formulario' : 'Todas las Respuestas') }}
+            </h2>
+            <div class="text-secondary text-xs">
+              {{ filteredRespuestas.length }} resultado(s)
+            </div>
+          </div>
+
+          <div class="relative">
+            <mat-icon svgIcon="mat:search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></mat-icon>
+            <input
+              type="text"
+              placeholder="Buscar respuestas..."
+              class="rounded-full bg-gray-100 pl-10 pr-4 py-2 border-0 text-sm"
+              [(ngModel)]="searchTerm"
+              (input)="filterResponses()">
+          </div>
+        </div>
+
+        <div *ngIf="isLoading" class="p-10 flex items-center justify-center">
+          <mat-spinner diameter="40" color="primary"></mat-spinner>
+          <p class="ml-4 font-medium">Cargando respuestas...</p>
+        </div>
+
+        <div *ngIf="error" class="p-6 text-center border-l-4 border-red-500">
+          <mat-icon class="text-red-500 text-4xl mb-2">error</mat-icon>
+          <p class="text-red-500">{{ error }}</p>
+          <button
+            mat-raised-button
+            color="primary"
+            class="mt-4"
+            (click)="formId ? loadResponses() : loadAllResponses()">
+            Reintentar
+          </button>
+        </div>
+
+        <div *ngIf="!isLoading && !error && filteredRespuestas.length === 0" class="p-10 text-center">
+          <mat-icon class="text-hint text-6xl mb-2">inbox</mat-icon>
+          <h3 class="text-xl font-medium mb-1">No hay respuestas</h3>
+          <p class="text-secondary mb-4">
+            {{ formId ? 'Aún no se han registrado respuestas para este formulario.' : 'No se encontraron respuestas en el sistema.' }}
+          </p>
+          <button
+            *ngIf="formId"
+            mat-raised-button
+            color="primary"
+            [routerLink]="['/formularios', formId]">
+            Completar Formulario
+          </button>
+        </div>
+
+        <div *ngIf="!isLoading && !error && filteredRespuestas.length > 0" class="overflow-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-app-bar text-secondary text-xs font-semibold text-left">
+                <th class="px-6 py-4 border-b">Fecha</th>
+                <th *ngIf="!formId" class="px-6 py-4 border-b">Formulario</th>
+                <th class="px-6 py-4 border-b">Usuario</th>
+                <th class="px-6 py-4 border-b">Datos</th>
+                <th class="px-6 py-4 border-b">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let resp of filteredRespuestas" class="text-sm hover:bg-hover">
+                <td class="px-6 py-4 border-b whitespace-nowrap">
+                  {{ formatDate(resp.fechaCreacion) }}
+                </td>
+                <td *ngIf="!formId" class="px-6 py-4 border-b">
+                  <a [routerLink]="['/respuestas', resp.formId]" class="text-primary hover:underline">
+                    {{ resp.formId }}
+                  </a>
+                </td>
+                <td class="px-6 py-4 border-b">
+                  {{ resp.usuarioId || 'Anónimo' }}
+                </td>
+                <td class="px-6 py-4 border-b">
+                  <div *ngFor="let item of resp.valores | keyvalue">
+                    <span class="font-medium">{{ item.key }}:</span> {{ formatValue(item.value) }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 border-b">
+                  <button
+                    type="button"
+                    mat-icon-button
+                    class="w-8 h-8 leading-none flex items-center justify-center text-primary hover:bg-primary-light rounded-full"
+                    [matMenuTriggerFor]="respMenu">
+                    <mat-icon svgIcon="mat:more_vert"></mat-icon>
+                  </button>
+                  <mat-menu #respMenu="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon svgIcon="mat:visibility"></mat-icon>
+                      <span>Ver Detalles</span>
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon svgIcon="mat:print"></mat-icon>
+                      <span>Imprimir</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="px-6 py-4 border-t flex justify-end">
+          <button
+            type="button"
+            mat-button
+            class="text-primary"
+            (click)="formId ? loadResponses() : loadAllResponses()">
+            <mat-icon svgIcon="mat:refresh" class="reload-icon mr-2"></mat-icon>
+            Actualizar Lista
+          </button>
+        </div>
+      </div>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>

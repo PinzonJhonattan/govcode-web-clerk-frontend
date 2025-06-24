@@ -1,0 +1,18 @@
+<vex-page-layout>
+    <vex-page-layout-content
+        [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+    >
+      <app-complex-table
+        nameTable="Plantillas"
+        [stateData]="state"
+        [columns]="columns"
+        [dataSourceTable]="dataTableTemplates"
+        [messageNotFound]="'No se han encontrado plantillas'"
+        (deleteEvent)="handleDeleteEvent($event)"
+        [hasReloadDataButton]="true"
+        [messageReloadButton]="'Actualizar Plantillas'"
+        (reloadDataEvent)="getTemplates()"
+      ></app-complex-table>
+    </vex-page-layout-content>
+</vex-page-layout>

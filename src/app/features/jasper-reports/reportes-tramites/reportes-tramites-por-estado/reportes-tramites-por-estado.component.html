@@ -1,0 +1,18 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+        <mat-label>Selecciona un Estado</mat-label>
+        <mat-select formControlName="state" (selectionChange)="onStateChange($event)">
+            <mat-option *ngFor="let estado of estadosReportes" [value]="estado.value">
+                {{estado.descripcion}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="form-submit-button" type="submit">
+    <mat-icon>save</mat-icon>
+        Generar Reporte
+    </button>
+
+</form>

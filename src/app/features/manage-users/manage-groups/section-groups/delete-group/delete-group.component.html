@@ -1,0 +1,18 @@
+<ng-container *ngIf="statusDeleteClerkGroup == 'loading'">
+  <div class="flex justify-center items-center ">
+    <div class="flex flex-col items-center gap-2">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      Eliminando grupo...
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="statusDeleteClerkGroup != 'loading'" >
+  <h1 mat-dialog-title>Eliminar Grupo</h1>
+  <div mat-dialog-content>
+    ¿Esta seguro que desea eliminar el grupo, se eliminaran todos los subgrupos asociados?
+  </div>
+  <div mat-dialog-actions align="end" >
+    <button mat-button mat-dialog-close>No, Cancelar</button>
+    <button mat-raised-button color="warn" cdkFocusInitial (click)="handleDeleteGroup()">Si, Eliminar grupo</button>
+  </div>
+</ng-container>

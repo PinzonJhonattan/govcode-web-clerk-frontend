@@ -1,0 +1,29 @@
+<vex-page-layout>
+  <vex-page-layout-header class="flex flex-col items-start justify-center">
+    <div
+
+      [class.px-gutter]="true"
+      class="w-full flex flex-col sm:flex-row justify-between"
+    >
+      <div>
+        <h2 class="title m-0">Gestión de grupos</h2>
+        <vex-breadcrumbs [crumbs]="['Administración de Grupos']"></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content>
+      <div class="w-full">
+        <div class="groups-container" *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_VIEW_GROUPS]">
+          <div class="list-groups">
+            <app-section-groups></app-section-groups>
+          </div>
+          <div class="flex-[5] specific-group">
+             <div class="vex-tabs">
+               <app-section-group-item></app-section-group-item>
+             </div>
+          </div>
+        </div>
+      </div>
+  </vex-page-layout-content>
+</vex-page-layout>

@@ -1,0 +1,33 @@
+<div class="relative rounded-md border border-primary bg-gray-50 p-4 shadow-md  text-center h-full" [ngClass]="{'pointer-events-none opacity-40' : fieldControl.disabled}">
+  <label
+    [for]="idInput"
+    class="flex flex-col items-center gap-2 cursor-pointer"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-10 w-10 fill-white stroke-primary"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+      ></path>
+    </svg>
+    <p class="text-gray-600 font-medium text-paragraph">{{label}} <span *ngIf="fieldControl?.hasValidator(Validators.required)">*</span></p>
+    <p class="text-xs max-w-full break-words">{{nameFile}}</p>
+  </label>
+  <input
+    [id]="idInput"
+    type="file"
+    class="hidden"
+    [disabled]="fieldControl.disabled"
+    (click)="fieldControl.markAsTouched()"
+    (change)="onFileSelect($event)"
+  >
+  <mat-error class="font-bold mt-2" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error>
+</div>

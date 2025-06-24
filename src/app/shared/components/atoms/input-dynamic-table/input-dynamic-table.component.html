@@ -1,0 +1,65 @@
+<section class="table-section">
+  <div>
+    <h2>{{text}}</h2>
+  </div>
+  <table mat-table [dataSource]="data" class="mat-elevation-z0" *ngIf="data">
+    <ng-container [matColumnDef]="nameIndexColumn" *ngIf="nameIndexColumn">
+      <th mat-header-cell *matHeaderCellDef [ngStyle]="{textAlign : 'center'}">
+        &nbsp;{{nameIndexColumn}}
+      </th>
+      <td mat-cell *matCellDef="let row; let index = index;">
+        {{index + 1}}
+      </td>
+    </ng-container>
+    <ng-container *ngFor="let column of columns;let index = index" [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef>
+        {{column}}
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <ng-container *ngIf="row[column]">
+          <ng-container *ngTemplateOutlet="template; context: { componentDynamic : row[column] }"></ng-container>
+        </ng-container>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="titleResult">
+      <td mat-footer-cell *matFooterCellDef [colSpan]="columns.length">
+        {{resultTitle}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="result">
+      <td mat-footer-cell *matFooterCellDef class="result-component">
+        <ng-container *ngTemplateOutlet="template; context: { componentDynamic : resultComponent }"></ng-container>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action" stickyEnd>
+    <th mat-header-cell *matHeaderCellDef>
+      &nbsp;
+    </th>
+    <td mat-cell *matCellDef="let row; let index = index;">
+      <button
+        class="bg-red text-white rounded-full w-[50%] h-full"
+        mat-raised-button
+        type="button"
+        (click)="removeRegisterAction(index)"
+      >
+        <mat-icon svgIcon="mat:remove" class="icon-xs mr-1 ml-0"></mat-icon>
+        &nbsp;
+      </button>
+
+    </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="['titleResult','result']" class="example-second-footer-row"></tr>
+
+  </table>
+  <button *ngIf="data.length < limitRows"
+    class="bg-primary text-white rounded-full mt-[12px] 1h-full"
+    mat-raised-button
+    type="button"
+    (click)="addRegisterAction()"
+  >
+    <mat-icon svgIcon="mat:add" class="icon-xs mr-1 ml-0"></mat-icon>
+    Agregar
+  </button>
+</section>

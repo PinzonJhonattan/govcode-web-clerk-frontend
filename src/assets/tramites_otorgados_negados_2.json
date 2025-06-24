@@ -1,0 +1,103 @@
+[
+    {
+        "title": "REPORTE DE TRÁMITES SOLICITADOS, OTORGADOS Y NEGADOS",
+        "dateGenerated": "Fecha de Generación 11 de octubre del 2023",
+        "period": "Periodo: 30/07/2023 hasta el 09/10/2023",
+        "titlePage": "Reporte del estado actual de los trámites solictados, otorgados y negados",
+        "columnsHeaders": [
+            {
+                "radicateBia": "Número de Radicado",
+                "dateRadicate ": "Fecha ",
+                "proceeding": "Expediente",
+                "typeProcedure": "T. Trámite",
+                "city": "Municipio",
+                "resultProcedure": "Resultado",
+                "typeResquest": "T. Solicitud",
+                "name": "Usuario y/o Entidad"
+            }
+        ],
+        "procedures": [
+            {
+                "radicateBia": "0000-0008-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-1111-2023",
+                "name": "",
+                "typeRequest": "",
+                "typeProcedure": "",
+                "city": "",
+                "resultProcedure": "Negado"
+            },
+            {
+                "radicateBia": "0000-0009-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-1112-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "",
+                "typeProcedure": "Nuevo",
+                "city": "Cumaral",
+                "resultProcedure": "Otorgado"
+            },
+            {
+                "radicateBia": "0000-0010-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-3333-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "",
+                "typeProcedure": "Nuevo",
+                "city": "Granada",
+                "resultProcedure": "Otorgado"
+            },
+            {
+                "radicateBia": "0000-0011-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-4444-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "Concesión de aguas superficiales",
+                "typeProcedure": "Nuevo",
+                "city": "Cumaral",
+                "resultProcedure": "Otorgado"
+            },
+            {
+                "radicateBia": "0000-0238-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-1114-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "",
+                "typeProcedure": "Nuevo",
+                "city": "Cumaral",
+                "resultProcedure": "Negado"
+            },
+            {
+                "radicateBia": "0000-0888-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-0888-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "Solcitud de concesion de aguas subterraneas",
+                "typeProcedure": "Nuevo",
+                "city": "Cumaral",
+                "resultProcedure": "Solicitado"
+            },
+            {
+                "radicateBia": "0000-9999-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-9999-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "Solcitud de concesion de aguas subterraneas",
+                "typeProcedure": "Nuevo",
+                "city": "Cumaral",
+                "resultProcedure": "Solicitado"
+            },
+            {
+                "radicateBia": "0000-0018-2023",
+                "dateRadicate": "2023-09-08T00:00:00",
+                "proceeding": "0000-0018-2023",
+                "name": "Roger Roldan",
+                "typeRequest": "Solcitud de concesion de aguas subterraneas",
+                "typeProcedure": "Nuevo",
+                "city": "Cumaral",
+                "resultProcedure": ""
+            }
+        ],
+        "totalProcedures": 8
+    }
+]

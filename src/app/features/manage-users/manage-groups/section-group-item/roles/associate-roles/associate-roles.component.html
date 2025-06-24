@@ -1,0 +1,26 @@
+<ng-container *ngIf="stateAssociateRolesToGroup == 'loading'">
+  <div class="flex justify-center items-center ">
+    <div class="flex flex-col items-center gap-2">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      Asociando Rol{{rolesSelected.length === 1 ? '' : 'es'}} al grupo...
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stateAssociateRolesToGroup != 'success' && stateAssociateRolesToGroup != 'loading'" >
+  <h1 mat-dialog-title>Asociar roles a grupo</h1>
+  <div mat-dialog-content class="py-5">
+    <app-complex-table
+      nameTable=""
+      [stateData]="stateLoadAssociateRolesToGroup"
+      [columns]="columnsAssociateRolesToGroup"
+      [dataSourceTable]="dataTableAssociateRolesToGroup"
+      [messageNotFound]="'No se han encontrado roles para asociar al grupo'"
+      (rowsSelectedChangeEvent)="changeRolesSelected($event)"
+    ></app-complex-table>
+  </div>
+  <div mat-dialog-actions align="end" >
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="stateLoadAssociateRolesToGroup == 'loading' || rolesSelected.length === 0" (click)="handleAssociateRolesGroup()" >Asociar rol{{rolesSelected.length === 1 ? '' : 'es'}} </button>
+  </div>
+
+</ng-container>

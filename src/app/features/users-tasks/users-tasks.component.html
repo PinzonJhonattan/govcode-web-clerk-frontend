@@ -1,0 +1,35 @@
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div
+      [class.container]="layoutCtrl.value === 'boxed'"
+      [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+      class="w-full flex flex-col sm:flex-row justify-between"
+    >
+      <div>
+        <h1 class="title mt-0 mb-1">Asignar tareas por usuario</h1>
+        <vex-breadcrumbs [crumbs]="['Trámites', 'Asignar tareas por usuario']"></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+  <vex-page-layout-content
+    [class.container]="layoutCtrl.value === 'boxed'"
+    [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+  >
+    <div class="-mt-20">
+
+    <app-complex-table
+      nameTable="Lista de tareas"
+      [columns]="columns"
+      [stateData]="state"
+      [dataSourceTable]="dataTasks"
+      [messageNotFound]="'No se han encontrado tareas a asignar'"
+      [openEditModal]="openEditModal"
+      [hasReloadDataButton]="true"
+      [messageReloadButton]="'Actualizar lista de tareas'"
+      (reloadDataEvent)="getAllTasks()"
+      titleEditModal="Asignar usuario"></app-complex-table>
+    </div>
+  </vex-page-layout-content>
+
+</vex-page-layout>
+

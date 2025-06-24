@@ -1,0 +1,76 @@
+<div class="flex justify-center p-6" *ngIf="state == 'loading'; else elseBlock">
+  <mat-spinner [diameter]="30"></mat-spinner>
+</div>
+<ng-template #elseBlock>
+  <mat-card>
+    <form [formGroup]="procedureForm" (ngSubmit)="onSubmit(procedureForm.value)">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="name" name="nombre">
+        <mat-error *ngIf="procedureForm.get('name').hasError('required')">Por favor ingresa el nombre de usuario</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Camunda ID</mat-label>
+        <input matInput type="text" formControlName="camundaId" name="camundaId">
+        <mat-error *ngIf="procedureForm.get('camundaId').hasError('required')">Por favor ingresa el el id asociado al trámite</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción de Radicado</mat-label>
+        <textarea matInput formControlName="radicateDescription" name="radicateDescription"></textarea>
+        <mat-error *ngIf="procedureForm.get('radicateDescription').hasError('required')">Por favor ingresa la descripción para radicación</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción de Consulta</mat-label>
+        <textarea matInput formControlName="consultDescription" name="consultDescription"></textarea>
+        <mat-error *ngIf="procedureForm.get('consultDescription').hasError('required')">Por favor ingresa la descripción para consulta de radicado</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción de Continuar Radicación</mat-label>
+        <textarea matInput formControlName="continueRadicateDescription" name="continueRadicateDescription"></textarea>
+        <mat-error *ngIf="procedureForm.get('continueRadicateDescription').hasError('required')">Por favor ingresa la descripción de continuación de radicado</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Link tutorial del trámite</mat-label>
+        <input matInput type="text" formControlName="tutorialUrl" name="emails">
+        <mat-error *ngIf="procedureForm.get('tutorialUrl').hasError('required')">Por favor ingresa el link del tutorial</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Emails de contacto</mat-label>
+        <input matInput type="text" formControlName="emailContact" name="emailContact">
+        <mat-hint>Separados por comas</mat-hint>
+        <mat-error *ngIf="procedureForm.get('emailContact').hasError('required')">Por favor ingresa los emails de contacto</mat-error>
+        <mat-error *ngIf="procedureForm.get('emailContact').hasError('pattern')">{{procedureForm.get('emailContact').errors.pattern.message}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Telefonos de contacto</mat-label>
+        <input matInput type="text" formControlName="phoneContact" name="phoneContact">
+        <mat-hint>Separados por comas</mat-hint>
+        <mat-error *ngIf="procedureForm.get('phoneContact').hasError('required')">Por favor ingresa los teléfonos de contacto</mat-error>
+        <mat-error *ngIf="procedureForm.get('phoneContact').hasError('pattern')">{{procedureForm.get('phoneContact').errors.pattern.message}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="role" name="role">
+          <mat-option *ngFor="let role of roles; let i = index" [value]="role?.name">{{ role.description }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="procedureForm.get('role').hasError('required')">Por favor ingresa algun rol para el trámite</mat-error>
+      </mat-form-field>
+
+      <div *ngIf="updateProcedure; else addBlock">
+        <button mat-raised-button [disabled]="onlyRead" class="add-button" type="submit">Actualizar</button>
+      </div>
+      <ng-template #addBlock>
+        <button mat-raised-button [disabled]="onlyRead" class="add-button" type="submit">Agregar</button>
+      </ng-template>
+    </form>
+  </mat-card>
+</ng-template>

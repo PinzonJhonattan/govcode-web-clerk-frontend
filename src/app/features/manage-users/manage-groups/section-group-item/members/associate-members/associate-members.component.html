@@ -1,0 +1,26 @@
+<ng-container *ngIf="stateAssociateMembersToGroup == 'loading'">
+  <div class="flex justify-center items-center ">
+    <div class="flex flex-col items-center gap-2">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      Asociando usuario{{membersSelected.length === 1 ? '' : 's'}} al grupo...
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stateAssociateMembersToGroup != 'success' && stateAssociateMembersToGroup != 'loading'" >
+  <h1 mat-dialog-title>Asociar usuarios a grupo</h1>
+  <div mat-dialog-content class="py-5">
+    <app-complex-table
+      nameTable=""
+      [stateData]="stateLoadAssociateMembersToGroup"
+      [columns]="columnsAssociateMembersToGroup"
+      [dataSourceTable]="dataTableAssociateMembersToGroup"
+      [messageNotFound]="'No se han encontrado usuarios para asociar al grupo'"
+      (rowsSelectedChangeEvent)="changeMembersSelected($event)"
+    ></app-complex-table>
+  </div>
+  <div mat-dialog-actions align="end" >
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="stateLoadAssociateMembersToGroup == 'loading' || membersSelected.length === 0" (click)="handleAssociateMembersGroup()" >Asociar usuario{{membersSelected.length === 1 ? '' : 's'}} </button>
+  </div>
+</ng-container>
+

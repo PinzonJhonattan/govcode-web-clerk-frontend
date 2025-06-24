@@ -1,0 +1,27 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de tipos de personas</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Tipos de identificación']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Tipos de identificación">
+                <div style="padding-top: 24px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+                    <!-- <app-list-of-person-types [comesFromCreateForm]="comesFromCreateForm"></app-list-of-person-types> -->
+                    <app-list-of-identification-types [comesFromCreateForm]="comesFromCreateForm"></app-list-of-identification-types>
+                </div>
+            </mat-tab>
+            <mat-tab label="Crear tipo de identificación">
+                <div class="p-12">
+                    <!-- <app-create-person-type (formSubmitted)="handleFormSubmitted()"></app-create-person-type> -->
+                    <app-create-identification-types (formSubmitted)="handleFormSubmitted()"></app-create-identification-types>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

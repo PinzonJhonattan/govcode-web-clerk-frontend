@@ -1,0 +1,22 @@
+<div>
+  <div class="flex flex-col gap-5">
+    <div class="flex">
+      <button mat-raised-button color="primary" class="text-[0.7rem]" (click)="handleAssociateRolesToGroupModal()"><mat-icon svgIcon="mat:face" class="mr-3 icon-xs"></mat-icon> Asociar rol</button>
+    </div>
+    <app-complex-table
+      nameTable=""
+      [stateData]="stateLoadRolesGroup"
+      [columns]="columnsRolesGroup"
+      [dataSourceTable]="dataTableRolesGroup"
+      [actionsButton]="{
+       removeRolFromGroup : handleRemoveRolFromGroupModal.bind(this)
+      }"
+      [messageNotFound]="'No se han encontrado roles asociadas a este grupo'"
+      [hasReloadDataButton]="true"
+      messageReloadButton="Recargar"
+      (reloadDataEvent)="loadRoles()"
+      [handleRemoveElements]="handleRemoveRolesFromGroupModal.bind(this)"
+      (rowsSelectedChangeEvent)="changeRolesSelected($event)"
+    ></app-complex-table>
+  </div>
+</div>

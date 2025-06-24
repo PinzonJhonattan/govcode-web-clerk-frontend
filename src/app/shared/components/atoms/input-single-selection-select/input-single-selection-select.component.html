@@ -1,0 +1,2 @@
+<app-input-select *ngIf="!isSearchable" [fieldControl]="fieldControl" [placeholder]="placeholder" [label]="label" [name]="name" [options]="options" [readonly]="readonly" [sendLabels]="sendLabels" ></app-input-select>
+<app-input-select-search *ngIf="isSearchable" [fieldControl]="fieldControl" [placeholder]="placeholder" [label]="label" [name]="name" [options]="options" [readonly]="readonly" [sendLabels]="sendLabels" ></app-input-select-search>

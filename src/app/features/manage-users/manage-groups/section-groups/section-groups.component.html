@@ -1,0 +1,25 @@
+<div class="pt-5">
+
+  <div class="flex gap-2 justify-between">
+    <h3 class="flex items-center gap-2"><mat-icon svgIcon="mat:group"></mat-icon>
+      Grupos </h3>
+
+    <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_CREATE_GROUPS]">
+      <button
+        *ngIf="infoGroup"
+        (click)="openCreateGroupModal()"
+        class="bg-primary text-white rounded-full text-[0.7rem]"
+        mat-raised-button
+        type="button"
+      >
+        <mat-icon svgIcon="mat:group_add" class="icon-xs mr-2 ml-0"></mat-icon>
+        Crear grupo
+      </button>
+    </ng-container>
+
+  </div>
+
+  <div class="mt-4 list-groups-container">
+    <app-list-groups [openCreateGroupModal]="openCreateGroupModal.bind(this)"></app-list-groups>
+  </div>
+</div>

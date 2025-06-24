@@ -1,0 +1,25 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de tipos de descarga</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Tipos de descarga']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Tipos de descarga">
+                <div style="padding-top: 24px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+                    <app-list-of-discharge-types [comesFromCreateForm]="comesFromCreateForm"></app-list-of-discharge-types>
+                </div>
+            </mat-tab>
+            <mat-tab label="Crear tipo de descarga">
+                <div class="p-12">
+                    <app-create-discharge-types (formSubmitted)="handleFormSubmitted()"></app-create-discharge-types>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

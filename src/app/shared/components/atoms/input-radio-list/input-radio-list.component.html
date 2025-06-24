@@ -1,0 +1,18 @@
+<div class="input-radio-list-container" [ngClass]="{disabled : fieldControl.disabled, 'pointer-events-none' : readonly}">
+  <label *ngIf="label" class="block input-radio-list-label mb-4" [for]="name">{{label}} <span *ngIf="fieldControl?.hasValidator(Validators.required)">*</span></label>
+  <p *ngIf="description" class="input-radio-description mb-4 text-xs">
+    {{description}}
+  </p>
+  <mat-radio-group
+    aria-labelledby="example-radio-group-label"
+    class="example-radio-group" [formControl]="fieldControl">
+    <div class="grid grid-cols-1 gap-y-[8px]" [ngClass]="chooseNumColumns">
+      <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="sendLabels ? option?.label  : option?.value" color="primary">
+        {{option?.label}}
+      </mat-radio-button>
+    </div>
+  </mat-radio-group>
+  <mat-error class="font-bold mt-4" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error>
+</div>

@@ -1,0 +1,27 @@
+<div class="flex justify-center p-6" *ngIf="state == 'loading'; else elseBlock"><mat-spinner
+        [diameter]="30"></mat-spinner></div>
+<ng-template #elseBlock>
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-card>
+            <form [formGroup]="templateForm" (ngSubmit)="onSubmit()"
+                style="display: flex; flex-direction: column; align-items: center;">
+                <input hidden type="file" #fileInput (change)="handleFileInput($event)" accept=".doc,.docx">
+                <button mat-raised-button type="button" (click)="triggerFileInput()" style="margin-bottom: 20px;"
+                    class="add-button">{{ buttonUploadTitle }}
+                </button>
+                <mat-error
+                    *ngIf="!fileUploaded && (templateForm.controls['templateFile'].dirty || templateForm.controls['templateFile'].touched)">
+                    Debes subir un archivo.
+                </mat-error>
+
+                <mat-form-field class="example-full-width" *ngIf="fileName" style="margin-bottom: 20px; width: 50%;">
+                    <mat-label>Nombre del archivo</mat-label>
+                    <input matInput [value]="fileName" disabled>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="loading || (updateTemplate && !changeFileInput)">Enviar</button>
+            </form>
+            <div class="flex justify-center p-6" *ngIf="loading"><mat-spinner [diameter]="30"></mat-spinner></div>
+        </mat-card>
+    </vex-page-layout-content>
+</ng-template>

@@ -1,0 +1,21 @@
+<div class="input-select-search-container"
+     [ngClass]="{'pointer-events-none' : readonly}">
+  <mat-form-field appearance="outline" class="mat-field-container w-full" color="primary">
+    <mat-label>{{label}}</mat-label>
+    <mat-select [formControl]="fieldControl" #singleSelect>
+      <mat-option>
+        <ngx-mat-select-search [formControl]="filterControl"
+                               [placeholderLabel]="placeholder || 'Buscar...'"
+                               noEntriesFoundLabel="'No se encontraron resultados'">
+          <mat-icon svgIcon="mat:clear" ngxMatSelectSearchClear></mat-icon>
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="sendLabels ? option.label : option.value">
+        {{option.label}}
+      </mat-option>
+    </mat-select>
+    <mat-error class="font-bold" *ngIf="fieldControl.invalid && fieldControl.touched">
+      <span>{{getErrorMessage(fieldControl)}}</span>
+    </mat-error>
+  </mat-form-field>
+</div>

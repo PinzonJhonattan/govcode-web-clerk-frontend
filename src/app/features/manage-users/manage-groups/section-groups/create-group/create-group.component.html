@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Crear Grupo</h1>
+<div mat-dialog-content>
+  <form [formGroup]="createGroupClerkForm" (ngSubmit)="handleCreateGroup()"
+        style="display: flex; flex-direction: column; align-items: center;">
+    <mat-form-field class="example-full-width" style="margin-bottom: 20px; width: 100%;">
+      <mat-label>Nombre del grupo</mat-label>
+      <input matInput formControlName="name" placeholder="grupo coordinadores forestal">
+      <mat-error
+        *ngIf="createGroupClerkForm.controls['name'].invalid && (createGroupClerkForm.controls['name'].dirty || createGroupClerkForm.controls['name'].touched)">
+        Este campo es obligatorio.
+      </mat-error>
+
+    </mat-form-field>
+    <div class="flex justify-center mb-4 " *ngIf="statusCreateGroupClerk == 'error'">
+      <app-alert-error [messageError]="messageErrorCreateGroupClerk"></app-alert-error>
+    </div>
+    <div class="flex justify-center mb-4" *ngIf="statusCreateGroupClerk == 'loading'">
+      <div class="flex flex-col items-center gap-2">
+        <mat-spinner [diameter]="30"></mat-spinner>
+        Creando grupo...
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end" >
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="statusCreateGroupClerk == 'loading'" (click)="handleCreateGroup()" (submit)="handleCreateGroup()" >Crear grupo</button>
+</div>

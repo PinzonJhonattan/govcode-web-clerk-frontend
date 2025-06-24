@@ -1,0 +1,20 @@
+<vex-page-layout>
+    <vex-page-layout-content
+        [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+    >
+      <app-complex-table
+        nameTable="Listas"
+        [stateData]="state"
+        [columns]="columns"
+        [dataSourceTable]="dataTable"
+        [messageNotFound]="'No se han encontrado listas'"
+        (deleteEvent)="handleDeleteEvent($event)"
+        [hasReloadDataButton]="true"
+        [messageReloadButton]="'Actualizar listas'"
+        (reloadDataEvent)="getLists()"
+        actionsAlignment="start"
+
+      ></app-complex-table>
+    </vex-page-layout-content>
+</vex-page-layout>

@@ -1,0 +1,8 @@
+  <mat-dialog-content class="mat-typography">
+    <app-leaflet-map #leafletMapComponent [initCoords]="data?.locationCoords" (coordSelected)="coordSelected($event)" [readonly]="data.readOnlyMap"></app-leaflet-map>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button (click)="selectCoords()" *ngIf="!data?.readOnlyMap">Seleccionar Ubicación</button>
+    <button type="button" mat-button (click)="leafletMapComponent.changeToCurrentLocationUser()" *ngIf="!data?.readOnlyMap">Mi ubicación actual</button>
+    <button type="button" mat-button mat-dialog-close>Cerrar Mapa</button>
+  </mat-dialog-actions>

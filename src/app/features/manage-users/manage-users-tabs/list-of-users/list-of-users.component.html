@@ -1,0 +1,23 @@
+<vex-page-layout>
+  <vex-page-layout-content
+    [class.container]="layoutCtrl.value === 'boxed'"
+    [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+  >
+    <app-complex-table
+      nameTable="Administrar Usuarios"
+      [stateData]="state"
+      [columns]="columns"
+      [dataSourceTable]="dataTableUsers"
+      [actionsButton]="{
+          removeUser : removeUser.bind(this),
+          changeEnabledStateUser : handleEnabledStateMemberModal.bind(this),
+          viewRolesUser : handleViewRolesUser.bind(this)
+        }"
+      (resetPasswordEvent)="resetPassword($event)"
+      [messageNotFound]="'No se han encontrado tareas asociadas a este usuario'"
+      [hasReloadDataButton]="true"
+      [messageReloadButton]="'Actualizar lista de usuarios'"
+      (reloadDataEvent)="getUsersData()"
+    ></app-complex-table>
+  </vex-page-layout-content>
+</vex-page-layout>

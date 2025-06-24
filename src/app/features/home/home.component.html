@@ -1,0 +1,21 @@
+<div class="home-container-layout">
+  <div class="home-container">
+    <div class="home-container__welcome">
+      <img width="15rem" height="15rem" class="home-container__welcome-logo-entity" src="/assets/img/logo_zipa.png"/>
+      <h1 class="home-container__welcome-title">Bienvenido al portal de Funcionarios</h1>
+      <p class="home-container__welcome-description">En este portal podrá realizar un seguimiento a los diferentes trámites de los procesos.<br/> Puede navegar a los diferentes modulos disponibles</p>
+
+      <button
+        *ngIf="canViewTasks"
+        (click)="router.navigate(['/tareas-pendientes'])"
+        class="bg-primary text-white rounded-full mt-5"
+        mat-raised-button
+        type="button"
+      >
+        Ver tareas pendientes
+      </button>
+
+    </div>
+  </div>
+</div>
+

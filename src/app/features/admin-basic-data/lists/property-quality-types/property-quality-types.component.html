@@ -1,0 +1,25 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de tipos de calidad de propietarios</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Tipos de calidad de propietarios']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Tipos de calidad de propietarios">
+                <div style="padding-top: 24px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+                    <app-list-of-property-quality-types [comesFromCreateForm]="comesFromCreateForm"></app-list-of-property-quality-types>
+                </div>
+            </mat-tab>
+            <mat-tab label="Crear tipo de calidad de propietario">
+                <div class="p-12">
+                    <app-create-property-quality-types (formSubmitted)="handleFormSubmitted()"></app-create-property-quality-types>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

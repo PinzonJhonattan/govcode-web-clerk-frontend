@@ -1,0 +1,93 @@
+<div class="w-full h-full flex flex-col items-center justify-center">
+    <div
+        @fadeInUp
+        class="card overflow-hidden w-full max-w-md"
+    >
+        <div class="p-6 pb-0 flex flex-col items-center justify-center">
+            <div class="fill-current text-center">
+                <img
+                    class="w-[10rem]"
+                    src="assets/img/logo_zipa.png"
+                >
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <h2 class="title m-0">Bienvenido</h2>
+            <h4 class="body-2 text-secondary m-0">Inicia sesión con tus credenciales.</h4>
+        </div>
+
+        <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="p-6 flex flex-col gap-4"
+        >
+            <div class="flex flex-col">
+                <mat-form-field class="flex-1 pb-1">
+                    <mat-label>Usuario</mat-label>
+                    <input
+                        formControlName="username"
+                        matInput
+                        required
+                    >
+                    <mat-error *ngIf="form.get('username').hasError('required')">Por favor ingresa el nombre de usuario</mat-error>
+                </mat-form-field>
+                <mat-form-field class="flex-1">
+                    <mat-label>Contraseña</mat-label>
+                    <input
+                        [type]="inputType"
+                        formControlName="password"
+                        matInput
+                        required
+                    >
+                    <button
+                        (click)="toggleVisibility()"
+                        mat-icon-button
+                        matSuffix
+                        matTooltip="Cambiar visibilidad"
+                        type="button"
+                    >
+                        <mat-icon
+                            *ngIf="visible"
+                            svgIcon="mat:visibility"
+                        ></mat-icon>
+                        <mat-icon
+                            *ngIf="!visible"
+                            svgIcon="mat:visibility_off"
+                        ></mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('password').hasError('required')">Por favor ingresa una contraseña</mat-error>
+                </mat-form-field>
+            </div>
+
+            <app-alert-error
+                *ngIf="messageError"
+                [messageError]="messageError"
+            ></app-alert-error>
+
+            <div class="flex items-center justify-between">
+                <mat-checkbox
+                    class="caption"
+                    color="primary"
+                >
+                    Recuerdame
+                </mat-checkbox>
+                <a
+                    [routerLink]="['/forgot-password']"
+                    class="caption"
+                >
+                    Olvidaste la contraseña?
+                </a>
+            </div>
+
+            <button
+                color="primary"
+                mat-raised-button
+                type="submit"
+            >
+                Iniciar Sesión
+            </button>
+
+        </form>
+    </div>
+</div>

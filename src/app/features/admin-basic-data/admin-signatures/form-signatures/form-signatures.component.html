@@ -1,0 +1,39 @@
+<div class="flex justify-center p-6" *ngIf="state == 'loading'; else elseBlock"><mat-spinner
+        [diameter]="30"></mat-spinner></div>
+<ng-template #elseBlock>
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-card>
+            <form [formGroup]="signatureForm" (ngSubmit)="onSubmit()"
+                style="display: flex; flex-direction: column; align-items: center;">
+
+              <mat-form-field appearance="outline" style="margin-bottom: 20px; width: 40%;">
+                <mat-label>Nombre de usuario</mat-label>
+                <mat-select formControlName="username" name="username">
+                  <mat-option *ngFor="let user of clerkUsers; let i = index" [value]="user?.username">{{ user.username }}</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="signatureForm.controls['username'].invalid && (signatureForm.controls['username'].dirty || signatureForm.controls['username'].touched)">
+                  Este campo es obligatorio.
+                </mat-error>
+              </mat-form-field>
+
+                <input hidden type="file" #fileImage (change)="handleFileInput($event)" accept=".jpg,.png">
+                <button mat-raised-button type="button" (click)="triggerFileImage()" style="margin-bottom: 20px;"
+                    class="add-button">
+                    {{ buttonUploadTitle }}</button>
+                <mat-error
+                    *ngIf="!fileUploaded && (signatureForm.controls['signatureFile'].dirty || signatureForm.controls['signatureFile'].touched)">
+                    Debes subir un archivo.
+                </mat-error>
+
+                <mat-form-field class="example-full-width" *ngIf="fileName" style="margin-bottom: 20px; width: 40%;">
+                    <mat-label>Nombre del archivo</mat-label>
+                    <input matInput [value]="fileName" disabled>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="loading || (updateSignature && !changeFileInput)">Enviar</button>
+            </form>
+            <div class="flex justify-center p-6" *ngIf="loading"><mat-spinner [diameter]="30"></mat-spinner></div>
+        </mat-card>
+    </vex-page-layout-content>
+</ng-template>

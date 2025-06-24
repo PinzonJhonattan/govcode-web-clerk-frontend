@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Nuevo item de lista </h1>
+<div mat-dialog-content>
+  <p class="mb-[8px]">Nombre a mostrar en la lista</p>
+  <div>
+    <mat-form-field appearance="outline" class="w-[100%]">
+      <mat-label>Label</mat-label>
+      <input matInput cdkfocusinitial [formControl]="formItemList.controls.label">
+      <mat-error *ngIf="formItemList.get('label').invalid && formItemList.get('label').touched">Debe completar el campo label</mat-error>
+    </mat-form-field>
+  </div>
+  <p class="mb-[8px]">Valor asociado en la lista </p>
+  <div>
+    <mat-form-field appearance="outline"  class="w-[100%]">
+      <mat-label>Valor</mat-label>
+      <input matInput [formControl]="formItemList.controls.value">
+      <mat-error *ngIf="formItemList.get('value').invalid && formItemList.get('value').touched">Debe completar el campo value</mat-error>
+    </mat-form-field>
+  </div>
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="addItem()">Agregar</button>
+</div>

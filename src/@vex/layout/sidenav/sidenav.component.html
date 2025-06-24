@@ -1,0 +1,76 @@
+<div (mouseenter)="collapseOpenSidenav()" (mouseleave)="collapseCloseSidenav()"
+    (clickoutside)="toggleHideSidenav($event)" [class.collapsed]="collapsed"
+    [class.open]="isDesktop ? (collapsed && collapsedOpen$ | async) : collapsed"
+    class="sidenav flex flex-col bg-foreground">
+    <div class="vex-sidenav-toolbar__container h-[100px]">
+        <div class="sidenav-toolbar flex-none flex items-center">
+            <img [src]="imageUrl$ | async" alt="Logo" class="mx-auto w-42 mt-8">
+        </div>
+
+        <!-- <div *ngIf="searchVisible$ | async" class="vex-sidenav-search__container">
+      <div class="vex-sidenav-search relative"
+           (click)="openSearch()"
+           matRipple
+           matRippleColor="var(--sidenav-item-ripple-color)">
+        <mat-icon class="flex-none vex-sidenav-search__icon" svgIcon="mat:search"></mat-icon>
+        <div class="flex-auto vex-sidenav-search__placeholder">Quick Search</div>
+        <div class="flex-none vex-sidenav-search__keybind">Ctrl K</div>
+      </div>
+    </div> -->
+
+        <!-- <div class="vex-sidenav-toolbar__divider"></div> -->
+    </div>
+
+    <vex-scrollbar class="flex-1 flex flex-col">
+
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="m-0 p-0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="flex items-center justify-center flex-col h-[60px] overflow-auto">
+                       <span class="capitalize">{{user?.username}}</span>
+                        <span class="text-xs text-gray-600 vex-sidenav-user__subtitle" style="white-space: normal;">
+                            {{currrentRole?.description}}
+                        </span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <vex-user-menu></vex-user-menu>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="pt-6 flex-1">
+            <vex-sidenav-item *ngFor="let item of items; trackBy: trackByRoute" [item]="item"
+                [level]="0"></vex-sidenav-item>
+        </div>
+    </vex-scrollbar>
+
+    <!-- <div
+        *ngIf="userVisible$ | async"
+        class="vex-sidenav-user__container flex-none ml-2 mb-2 rounded-bl-lg"
+        style="box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.5), 0px 5px 5px rgba(0, 0, 0, 0.5);"
+    >
+        <div
+            #userProfileMenuOriginRef
+            (click)="openProfileMenu(userProfileMenuOriginRef)"
+            [class.vex-sidenav-user--open]="userMenuOpen$ | async"
+            class="vex-sidenav-user flex items-center"
+            matRipple
+            matRippleColor="var(--sidenav-item-ripple-color)"
+        >
+            <img
+                alt="User Avatar"
+                class="vex-sidenav-user__image flex-none"
+                src="assets/img/avatars/1.jpg"
+            >
+            <div class="vex-sidenav-user__content flex-auto">
+                <div class="vex-sidenav-user__title">{{user?.name}}</div>
+                <div class="vex-sidenav-user__subtitle">{{currrentRole}}</div>
+            </div>
+            <mat-icon
+                class="vex-sidenav-user__dropdown-icon flex-none"
+                svgIcon="mat:arrow_drop_down"
+            ></mat-icon>
+        </div>
+    </div> -->
+</div>

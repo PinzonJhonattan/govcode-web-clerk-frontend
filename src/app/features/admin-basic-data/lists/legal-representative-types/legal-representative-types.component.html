@@ -1,0 +1,25 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de tipos representantes legales</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Tipos de representantes legales']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Tipos de representantes legales">
+                <div style="padding-top: 24px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+                    <app-list-of-legal-representative-types [comesFromCreateForm]="comesFromCreateForm"></app-list-of-legal-representative-types>
+                </div>
+            </mat-tab>
+            <mat-tab label="Crear tipo de representante legal">
+                <div class="p-12">
+                    <app-create-legal-representative-types (formSubmitted)="handleFormSubmitted()"></app-create-legal-representative-types>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

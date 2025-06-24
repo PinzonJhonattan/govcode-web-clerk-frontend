@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Crear rol ciudadano</h1>
+<div mat-dialog-content>
+  <form [formGroup]="rolesForm" (ngSubmit)="handleCreateRole()"
+        style="display: flex; flex-direction: column; align-items: center;">
+    <mat-form-field class="example-full-width" style="margin-bottom: 20px; width: 100%;">
+      <mat-label>Nombre del rol</mat-label>
+      <input matInput formControlName="name" placeholder="actor_coordinador-agua">
+      <mat-error
+        *ngIf="rolesForm.controls['name'].invalid && (rolesForm.controls['name'].dirty || rolesForm.controls['name'].touched)">
+        Este campo es obligatorio.
+      </mat-error>
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" style="margin-bottom: 10px; width: 100%;">
+      <mat-label>Descripción del rol</mat-label>
+      <input matInput formControlName="description" placeholder="Rol actor coordinador agua">
+      <mat-error
+        *ngIf="rolesForm.controls['description'].invalid && (rolesForm.controls['description'].dirty || rolesForm.controls['description'].touched)">
+        Este campo es obligatorio.
+      </mat-error>
+    </mat-form-field>
+    <div class="flex justify-center mb-4 " *ngIf="statusCreateRole == 'error'">
+      <app-alert-error [messageError]="messageError"></app-alert-error>
+    </div>
+    <div class="flex justify-center mb-4" *ngIf="statusCreateRole == 'loading'">
+      <div class="flex flex-col items-center gap-2">
+        <mat-spinner [diameter]="30"></mat-spinner>
+        Creando rol...
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end" >
+  <button mat-button mat-dialog-close>No, Cancelar</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="statusCreateRole == 'loading'" (click)="handleCreateRole()" (submit)="handleCreateRole()" >Crear rol actor</button>
+</div>

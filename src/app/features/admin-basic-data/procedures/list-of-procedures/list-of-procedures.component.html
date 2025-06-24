@@ -1,0 +1,18 @@
+<vex-page-layout>
+    <vex-page-layout-content
+        [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+    >
+      <app-complex-table
+        nameTable="Trámites Pendientes"
+        [stateData]="state"
+        [columns]="columns"
+        [dataSourceTable]="dataTableProcedures"
+        [messageNotFound]="'No se han encontrado trámites'"
+        (deleteEvent)="handleDeleteEvent($event)"
+        [hasReloadDataButton]="true"
+        [messageReloadButton]="'Actualizar lista de trámites'"
+        (reloadDataEvent)="getProceduresList()"
+      ></app-complex-table>
+    </vex-page-layout-content>
+</vex-page-layout>

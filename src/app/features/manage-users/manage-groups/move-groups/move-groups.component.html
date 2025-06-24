@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Mover grupo {{groupToMoveData.infoGroupToMove.name}} a {{actualSelectedGroup?.name || 'Raiz'}}</h1>
+<div mat-dialog-content>
+  <ul class="flex flex-wrap gap-3 py-4 mb-2 items-center" *ngIf="actualGroupsOpen.length > 0">
+    <li>
+      <button (click)="changeToRootGroup()" class="text-primary hover:underline">
+        Grupos raiz
+      </button>
+    </li>
+    <li *ngFor="let actualGroup of actualGroupsOpen; index as indexGroup" class="flex items-center gap-3">
+      <mat-icon svgIcon="mat:keyboard_arrow_right" class="icon-xs w-[0.8rem] h-[0.8rem]"></mat-icon>
+      <button *ngIf="indexGroup != actualGroupsOpen.length - 1" class="text-primary hover:underline" (click)="changeToIntermediateGroup(actualGroup, indexGroup)">
+        <span>
+          {{actualGroup.name}}
+        </span>
+      </button>
+      <span *ngIf="indexGroup == actualGroupsOpen.length - 1">
+                {{actualGroup.name}}
+      </span>
+    </li>
+  </ul>
+  <div class="pb-5">
+    <app-complex-table
+      nameTable=""
+      [stateData]="stateLoadMoveGroups"
+      [columns]="columnsMoveGroups"
+      [dataSourceTable]="dataTableMoveGroups"
+      [actionsButton]="{
+        goToGroup : changeActualGroup.bind(this)
+      }"
+      [messageNotFound]="'No se han encontrado subgrupos asociadas a este grupo'"
+      [hasReloadDataButton]="true"
+      messageReloadButton="Recargar"
+      (reloadDataEvent)="actualGroupsOpen.length > 0 ? loadChildrenGroup(actualSelectedGroup) : loadMoveGroups()"
+    ></app-complex-table>
+  </div>
+</div>
+<div mat-dialog-actions align="end" >
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="stateLoadMoveGroups == 'loading'" (click)="handleMoveGroups()" (submit)="handleMoveGroups()" >Mover aquí</button>
+</div>

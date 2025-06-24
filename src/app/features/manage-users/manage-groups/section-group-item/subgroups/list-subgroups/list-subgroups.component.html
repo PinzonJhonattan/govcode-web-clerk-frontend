@@ -1,0 +1,28 @@
+<div>
+  <div class="flex flex-col gap-5">
+    <div class="flex">
+      <button mat-raised-button color="primary" class="text-[0.7rem]" (click)="handleCreateSubgroupToGroupModal()"><mat-icon svgIcon="mat:add" class="mr-3 icon-xs"></mat-icon> Crear Subgrupo</button>
+    </div>
+    <div>
+      <app-complex-table
+        nameTable=""
+        [stateData]="stateLoadSubgroupsGroup"
+        [columns]="columnsSubgroupsGroup"
+        [dataSourceTable]="dataTableSubgroupsGroup"
+        [actionsButton]="{
+       editSubGroup  : handleEditSubgroupToGroupModal.bind(this),
+       deleteSubGroup : handleDeleteSubgroupToGroupModal.bind(this),
+       goToGroup : changeGroup.bind(this),
+       moveGroup : handleMoveSubGroup.bind(this)
+      }"
+        [messageNotFound]="'No se han encontrado subgrupos asociadas a este grupo'"
+        [hasReloadDataButton]="true"
+        messageReloadButton="Recargar"
+        (reloadDataEvent)="loadChildrenGroup()"
+        [handleRemoveElements]="handleRemoveSubgroupsFromGroupModal.bind(this)"
+        (rowsSelectedChangeEvent)="changeGroupsSelected($event)"
+      ></app-complex-table>
+    </div>
+
+  </div>
+</div>

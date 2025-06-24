@@ -1,0 +1,304 @@
+<div [class]="'card overflow-auto'">
+  <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+    <h2
+      class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none"
+    >
+      <span *ngIf="selection.isEmpty() && nameTable">{{ nameTable }}</span>
+      <span *ngIf="selection.hasValue()" class="text-[0.9rem]">
+        {{ selection.selected.length }} elemento{{
+          selection.selected.length > 1 ? "s" : ""
+        }}
+        seleccionado{{ selection.selected.length > 1 ? "s" : "" }}
+      </span>
+    </h2>
+
+    <div
+      *ngIf="selection.hasValue() && handleRemoveElements"
+      (click)="handleRemoveElements && handleRemoveElements()"
+    >
+      <button mat-icon-button>
+        <mat-icon svgIcon="mat:delete"></mat-icon>
+      </button>
+    </div>
+
+    <div
+      *ngIf="selection.hasValue()"
+      class="mr-4 pr-4 border-r flex-none"
+    ></div>
+
+    <div
+      class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300"
+    >
+      <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+      <input
+        [formControl]="searchCtrl"
+        class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+        placeholder="Buscar..."
+        type="search"
+      />
+    </div>
+    <span class="flex-1"></span>
+
+    <button
+      *ngIf="hasReloadDataButton"
+      class="ml-4 flex-none"
+      mat-flat-button
+      [matTooltip]="'Recargar ' + nameTable"
+      color="primary"
+      type="button"
+      (click)="activeReloadDataEvent()"
+    >
+      <mat-icon svgIcon="mat:refresh" class="reload-icon mr-2"></mat-icon>
+      {{ messageReloadButton }}
+    </button>
+
+    <button
+      [matMenuTriggerFor]="columnFilterMenu"
+      class="ml-4 flex-none"
+      mat-icon-button
+      matTooltip="Filter Columns"
+      type="button"
+    >
+      <mat-icon svgIcon="mat:filter_list"></mat-icon>
+    </button>
+  </div>
+  <div
+    class="flex justify-center p-6"
+    *ngIf="dataSource.data.length === 0 && stateData == 'success'"
+  >
+    {{ messageNotFound }}
+  </div>
+  <div class="flex justify-center p-6" *ngIf="stateData === 'loading'">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+
+  <table
+    @stagger
+    [ngStyle]="{
+      display:
+        dataSource.data.length > 0 && stateData == 'success' ? '' : 'none'
+    }"
+    [dataSource]="dataSource"
+    class="w-full"
+    mat-table
+    matSort
+  >
+    <!-- - Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+      <th *matHeaderCellDef mat-header-cell class="text-sm">
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          color="primary"
+        >
+        </mat-checkbox>
+      </th>
+      <td *matCellDef="let row" class="w-4" mat-cell>
+        <mat-checkbox
+          (change)="$event ? selectRow(row) : null"
+          (click)="$event.stopPropagation()"
+          [checked]="selection.isSelected(row)"
+          color="primary"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Image Column -->
+    <ng-container matColumnDef="image">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
+        <img [src]="row['imageSrc']" class="avatar h-8 w-8 align-middle" />
+      </td>
+    </ng-container>
+
+    <!-- Text Columns -->
+    <ng-container *ngFor="let column of columnsTable; trackBy: trackByProperty">
+      <ng-container
+        *ngIf="column.type === 'text'"
+        [matColumnDef]="column.property"
+      >
+        <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
+          {{ column.label }}
+        </th>
+
+        <td
+          *matCellDef="let row"
+          [ngClass]="column.cssClasses"
+          mat-cell
+          [ngClass]="{
+            'text-gray-500':
+              row[column.property] === null ||
+              row[column.property] === undefined
+          }"
+          [ngStyle]="{
+            'background-color':
+              row[column.property] === 'otorgado' &&
+              backgroundColorTab.resultProcedure[0].otorgados
+                ? backgroundColorTab.resultProcedure[0].otorgados
+                : row[column.property] === 'negados' &&
+                  backgroundColorTab.resultProcedure[0].negados
+                ? backgroundColorTab.resultProcedure[0].negados
+                : row[column.property] === 'solicitado' &&
+                  backgroundColorTab.resultProcedure[0].solicitado
+                ? backgroundColorTab.resultProcedure[0].solicitado
+                : ''
+          }"
+        >
+          <ng-container *ngIf="column.label === 'Aviso'; else defaultContent">
+            <div
+              [ngStyle]="{
+                width: '20px',
+                height: '20px',
+                'border-radius': '50%',
+                display: 'inline-block',
+                border: '1px solid #717272',
+                'box-shadow': '0 0 0 2px #fff',
+                'margin-right': '10px'
+              }"
+              [ngClass]="{
+                'bg-yellow-400': row[column.property] === 'yellow',
+                'bg-green-600': row[column.property] === 'green',
+                'bg-red-500': row[column.property] === 'red',
+                'bg-blue-600': row[column.property] === 'blue'
+              }"
+            ></div>
+          </ng-container>
+          <ng-template #defaultContent>
+            <span
+              [ngStyle]="{
+                color:
+                  row[column.property] != '' || row[column.property] != null
+                    ? 'black'
+                    : 'red'
+              }"
+            >
+              {{
+                row[column.property] != "" || row[column.property] != null
+                  ? row[column.property]
+                  : "Sin información"
+              }}
+            </span>
+          </ng-template>
+        </td>
+      </ng-container>
+      <ng-container
+        *ngIf="column.type === 'button' && column.property !== 'actions'"
+        [matColumnDef]="column.property"
+        [stickyEnd]="column.buttonIcon"
+      >
+        <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
+          {{ column.label }}
+        </th>
+        <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+          <div
+            [class]="'flex justify-' + actionsAlignment"
+            *ngIf="!row.linkButton"
+          >
+            <button
+              [title]="getTitleButton(row, column) || column.label"
+              [routerLink]="
+                ['edit', 'review'].includes(column.property)
+                  ? getLinkButton(row, column.property)
+                  : undefined
+              "
+              (click)="
+                column.action && actionsButton[column.action]
+                  ? actionsButton[column.action](row, column.property, {
+                      rowsSelected: selection
+                    })
+                  : handleButtonClick(row, column.property)
+              "
+              class="outline-btn py-2 px-5 rounded-full text-primary border border-primary hover:bg-primary hover:text-white"
+            >
+              <mat-icon
+                *ngIf="column.buttonIcon"
+                [svgIcon]="column.buttonIcon"
+                class="icon-xs"
+                aria-hidden="false"
+              ></mat-icon>
+              <span *ngIf="column.titleButton">
+                {{ getTitleButton(row, column) }}
+              </span>
+            </button>
+          </div>
+          <!-- ------------------------------- -->
+          <ng-template #elseBlock>
+            <button
+              [routerLink]="[row.linkButton]"
+              class="bg-primary py-2 px-5 rounded-full text-white"
+            >
+              {{ getTitleButton(row, column) }}
+            </button>
+          </ng-template>
+          <!-- ------------------------------- -->
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+      <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+        <button
+          (click)="$event.stopPropagation()"
+          [matMenuTriggerData]="{ data: row }"
+          [matMenuTriggerFor]="actionsMenu"
+          mat-icon-button
+          type="button"
+        >
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tbody>
+      <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+      <tr
+        *matRowDef="let row; columns: visibleColumns"
+        @fadeInUp
+        class="hover:bg-gray-200 trans-ease-out cursor-pointer"
+        mat-row
+      ></tr>
+    </tbody>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSize"
+    class="sticky left-0"
+    [ngStyle]="{
+      display:
+        dataSource.data.length > 0 && stateData == 'success' ? '' : 'none'
+    }"
+  ></mat-paginator>
+</div>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-data="data" matMenuContent>
+    <button mat-menu-item (click)="openEditModal(data)">
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>{{ titleEditModal }}</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <button
+    (click)="toggleColumnVisibility(column, $event)"
+    *ngFor="let column of columnsTable"
+    class="checkbox-item mat-menu-item"
+  >
+    <mat-checkbox
+      (click)="$event.stopPropagation()"
+      [(ngModel)]="column.visible"
+      color="primary"
+    >
+      {{ column.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>

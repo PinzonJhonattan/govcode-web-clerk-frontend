@@ -1,0 +1,66 @@
+<a *ngIf="isLink(item) && !isFunction(item.route)" [fragment]="item.fragment"
+  [routerLinkActiveOptions]="item.routerLinkActiveOptions || { exact: false }" [routerLink]="item.route"
+  class="vex-sidenav-item" matRipple matRippleColor="var(--sidenav-item-ripple-color)"
+  routerLinkActive="vex-sidenav-item--active">
+  <!-- <mat-icon *ngIf="level === 0" [svgIcon]="item.icon" class="vex-sidenav-item__icon"></mat-icon> -->
+  <span class="text-black">{{ item.label }}</span>
+  <span *ngIf="item.badge" [ngClass]="[item.badge.bgClass, item.badge.textClass]" class="vex-sidenav-item__badge">{{
+    item.badge.value }}</span>
+</a>
+
+<a *ngIf="isItemVisible(item) && isModal(item) && !isFunction(item.route)"
+  (click)="openModal()"
+  class="vex-sidenav-item" matRipple matRippleColor="var(--sidenav-item-ripple-color)"
+  routerLinkActive="vex-sidenav-item--active">
+  <!-- <mat-icon *ngIf="level === 0" [svgIcon]="item.icon" class="vex-sidenav-item__icon"></mat-icon> -->
+  <span class="text-black">{{ item.label }}</span>
+</a>
+
+<div (click)="item.route()" *ngIf="isItemVisible(item) && isLink(item) && isFunction(item.route)" class="vex-sidenav-item" matRipple
+  matRippleColor="var(--sidenav-item-ripple-color)" routerLinkActive="vex-sidenav-item--active">
+  <!-- <mat-icon *ngIf="level === 0" [svgIcon]="item.icon" class="vex-sidenav-item__icon"></mat-icon> -->
+  <span class="vex-sidenav-item__label text-black">{{ item.label }}</span>
+  <span *ngIf="item.badge" [ngClass]="[item.badge.bgClass, item.badge.textClass]" class="vex-sidenav-item__badge">{{
+    item.badge.value }}</span>
+</div>
+
+<ng-container *ngIf="isItemVisible(item) && isDropdown(item)">
+  <div (click)="toggleOpen()" [class.vex-sidenav-item--active]="isOpen || isActive"
+    [class.vex-sidenav-item--open]="isOpen" class="vex-sidenav-item" matRipple
+    matRippleColor="var(--sidenav-item-ripple-color)">
+    <span class="vex-sidenav-item__label text-black">{{ item.label }}</span>
+    <span *ngIf="item.badge" [ngClass]="[item.badge.bgClass, item.badge.textClass]" class="vex-sidenav-item__badge">{{
+      item.badge.value }}</span>
+    <mat-icon class="vex-sidenav-item__dropdown-icon" svgIcon="mat:keyboard_arrow_right"></mat-icon>
+  </div>
+  <div [@dropdown]="isOpen" class="vex-sidenav-item__dropdown">
+    <ng-container *ngFor="let subItem of item.children">
+      <!--Revisar si puede mejorarse el control de los items del sidebar-->
+      <vex-sidenav-item *ngIf="isItemVisible(subItem)" [item]="subItem" [level]="level + 1"></vex-sidenav-item>
+    </ng-container>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="isSubheading(item)">
+  <div class="vex-sidenav-subheading text-black">{{ item.label }}</div>
+  <ng-container *ngFor="let subItem of item.children">
+    <vex-sidenav-item *ngIf="isItemVisible(subItem)" [item]="subItem" [level]="level + 0 "></vex-sidenav-item>
+  </ng-container>
+</ng-container>
+
+<app-modal (emmitActionButtonClick)="handleActionClick($event)" (emmitCloseModal)="closeModal()"
+  [isVisible]="showWorkLoadModal" [buttonOrientation]="'vertical'" [showCloseButton]="true">
+  <div modalContent>
+    <app-complex-table
+      nameTable="Lista de carga tareas"
+      [columns]="columnsWorkLoad"
+      [stateData]="state"
+      [dataSourceTable]="dataWorkLoad"
+      [messageNotFound]="'No se han encontrado tareas'"
+      [hasReloadDataButton]="true"
+      [messageReloadButton]="'Actualizar cargas de tareas'"
+      (reloadDataEvent)="getWorkLoad()"
+      titleEditModal="Carga de tareas"></app-complex-table>
+  </div>
+</app-modal>

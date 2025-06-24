@@ -1,0 +1,73 @@
+<vex-page-layout class="bg-white h-[100%]">
+  <vex-page-layout-header class="flex flex-col items-start justify-center">
+    <div
+      [class.container]="layoutCtrl.value === 'boxed'"
+      [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+    >
+      <div>
+        <h2 class="title m-0">Documentos del proceso</h2>
+        <vex-breadcrumbs [crumbs]="['Datos del proceso', 'Documentos del trámite']"></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content
+    [class.container]="layoutCtrl.value === 'boxed'"
+    [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+  >
+
+    <div class="list-documents-container">
+      <h4 class="font-bold mb-[16px] text-lg">Buscar documentos por número de radicado</h4>
+      <div class="w-[100%] md:w-[60%] items-center flex gap-[16px] flex-col md:flex-row">
+        <div class="w-[65%] flex-[4_4_0%]">
+          <app-input-text [fieldControl]="documentsForm.controls.instanceProcess"
+                          label="Número de radicado"></app-input-text>
+        </div>
+        <button
+          (click)="getAllProcedureDocuments()"
+          class="bg-primary text-white rounded-full w-[35%] flex-[1_1_0%] h-[52px]"
+          mat-raised-button
+        >
+          <mat-icon svgIcon="mat:search" class="icon-md mr-1 ml-0"></mat-icon>
+          Buscar
+        </button>
+      </div>
+      <div class="mt-[32px]">
+        <ng-container *ngIf="stateSearchDocuments === 'success'">
+          <h5 class="font-bold text-lg mb-[16px]">Documentos encontrados</h5>
+          <p class="mb-[16px]"><span class="font-bold">Total:</span> {{Object.keys(documentsListed).length}}</p>
+          <div *ngIf="Object.keys(documentsListed).length > 0; else NoExistDocuments">
+            <div class="grid grid-cols-1 md:grid-cols-3 flex-wrap gap-[16px]">
+                <app-input-file-viewer *ngFor="let documentList of Object.keys(documentsListed)"
+                                       [label]="documentsListed[documentList]?.valueInfo?.filename" [name]="documentList"
+                                       [idInstance]="documentsForm.get('instanceProcess').value"></app-input-file-viewer>
+              </div>
+          </div>
+          <ng-template #NoExistDocuments>
+            <div class="flex flex-row justify-center">
+              <div class="flex flex-col items-center justify-center gap-y-[16px] h-full">
+                <h4 class="text-2xl font-bold">No hay documentos</h4>
+                <p>No se encontraron documentos para el número de radicado ingresado</p>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="stateSearchDocuments === 'loading'">
+          <div class="mt-[15px] flex flex-col items-center gap-y-[16px] h-[10rem]">
+            <mat-spinner diameter="35" color="primary"></mat-spinner>
+            <p class="font-bold text-lg">Buscando Documentos</p>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="stateSearchDocuments === 'error'">
+          <div class="flex flex-row justify-center">
+            <div class="flex flex-col items-center justify-center gap-y-[16px] h-full">
+              <h4 class="text-2xl font-bold">Error</h4>
+              <p>{{errorMessage || 'Ha ocurrido un error al listar los documentos del trámite, intente de nuevo'}}</p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </vex-page-layout-content>
+
+</vex-page-layout>

@@ -1,0 +1,27 @@
+<form [formGroup]="assignUserForm" (ngSubmit)="assignTaskToUser(assignUserForm)">
+  <h3 class="text-base font-semibold leading-6 text-gray-900 mb-4">Asignación de usuarios</h3>
+
+  <ng-container *ngIf="this.users.length > 0">
+    <mat-form-field class="w-full">
+      <mat-select placeholder="Selecciona un usuario" formControlName="user" name="user">
+        <!-- <mat-option *ngFor="let user of users" [value]="user.username"> -->
+        <mat-option *ngFor="let user of users" [value]="user.username">
+          <!-- {{ user.firstName }} {{user.lastName}} -->
+          {{ user.firstName }} {{user.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex gap-4 justify-center">
+      <button mat-raised-button class="bg-primary md:w-3/12 text-white rounded-full w-full" [disabled]="">Asignar</button>
+      <button *ngIf="taskData.assignee !== 'Sin Asignar'" mat-raised-button class="bg-red-500 md:w-5/12 text-white rounded-full w-full" type="button" (click)="deallocateTaskUser()">Desasignar Tarea</button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="this.users.length === 0 && state !== 'loading'">
+    No existen usuarios asociados al rol para asignar
+  </ng-container>
+  <ng-container *ngIf="state === 'loading'">
+    <div class="flex justify-center">
+      <mat-spinner diameter="30"></mat-spinner>
+    </div>
+  </ng-container>
+</form>

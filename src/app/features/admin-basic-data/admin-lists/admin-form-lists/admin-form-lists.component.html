@@ -1,0 +1,145 @@
+<div class="flex justify-center p-6" *ngIf="state == 'loading'; else elseBlock">
+  <mat-spinner [diameter]="30"></mat-spinner>
+</div>
+<ng-template #elseBlock>
+  <mat-card>
+    <form
+      [formGroup]="adminListForm"
+      (ngSubmit)="onSubmit(adminListForm.value)"
+    >
+      <mat-form-field appearance="outline" class="w-[40%]">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="name" name="nombre" />
+        <mat-error
+          *ngIf="
+            adminListForm.controls['name'].errors?.required &&
+            adminListForm.controls['name'].touched
+          "
+          >El campo Nombre es obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field appearance="outline" class="w-[40%]">
+        <mat-label>Url</mat-label>
+        <input matInput type="text" formControlName="url" name="url" />
+        <mat-error
+          *ngIf="
+            adminListForm.controls['url'].errors?.required &&
+            adminListForm.controls['url'].touched
+          "
+          >El campo Url es obligatorio.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            adminListForm.controls['url'].errors?.pattern &&
+            adminListForm.controls['url'].touched
+          "
+          >La URL no puede contener espacios, caracteres especiales y mínimo 4
+          caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <div formArrayName="list" class="mt-[16px] items-container">
+        <div
+          *ngFor="let item of itemControls; let i = index"
+          [formGroupName]="i"
+          class="mb-[16px] card-item-list"
+        >
+          <div>
+            <p class="mb-[8px] card-item-key flex items-center">
+              <mat-icon svgIcon="mat:label"></mat-icon>
+              <b class="ml-[2px]">Label</b> : {{ item.value?.label }}
+            </p>
+            <p class="mb-[8px] card-item-key flex items-center">
+              <mat-icon svgIcon="mat:format_size"></mat-icon>
+              <b class="ml-[2px]">Valor</b> : {{ item.value?.value }}
+            </p>
+          </div>
+          <button
+            mat-raised-button
+            color="warn"
+            class="mt-[8px] justify-seld-end self-center h-[40px]"
+            type="button"
+            (click)="removeItem(i)"
+          >
+            <mat-icon svgIcon="mat:delete_forever"></mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="mt-[8px]"
+        type="button"
+        (click)="addItem()"
+        *ngIf="!updateList"
+      >
+        Agregar Ítem
+      </button>
+
+      <ng-container *ngIf="updateList">
+        <button
+          mat-raised-button
+          color="primary"
+          class="mt-[8px]"
+          type="button"
+          (click)="addItem()"
+          *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_EDIT_LISTS]"
+        >
+          Agregar Ítem
+        </button>
+      </ng-container>
+      <br />
+
+      <button
+        mat-raised-button
+        class="add-button mt-[32px]"
+        *ngIf="!updateList"
+        type="submit"
+      >
+        Crear
+      </button>
+
+      <ng-container *ngIf="updateList">
+        <button
+          mat-raised-button
+          class="add-button mt-[32px]"
+          *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_EDIT_LISTS]"
+          type="submit"
+        >
+          Editar
+        </button>
+      </ng-container>
+
+      <br />
+      <br />
+      <br />
+    </form>
+    <div *ngIf="updateList">
+      <vex-page-layout>
+        <vex-page-layout-content
+          [class.container]="layoutCtrl.value === 'boxed'"
+          [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+          class="mt-6"
+        >
+          <app-complex-table
+            nameTable="Listas"
+            [stateData]="state"
+            [columns]="columns"
+            [dataSourceTable]="dataTable"
+            [messageNotFound]="'No se han encontrado listas'"
+            [openEditModal]="openEditModal"
+            [actionsButton]="actionsButtons"
+            titleEditModal="Editar nombre"
+            (deleteEvent)="handleDeleteEvent($event)"
+            actionsAlignment="start"
+          >
+          </app-complex-table>
+        </vex-page-layout-content>
+      </vex-page-layout>
+    </div>
+  </mat-card>
+</ng-template>

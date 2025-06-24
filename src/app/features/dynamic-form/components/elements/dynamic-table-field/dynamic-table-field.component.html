@@ -1,0 +1,10 @@
+<div *ngIf="renderComponentTemplate">
+  <ndc-dynamic [ndcDynamicComponent]="componentToRender"
+               [ndcDynamicInputs]="dynamicProps">
+  </ndc-dynamic>
+</div>
+
+<ng-template #renderComponentTemplate let-componentDynamic="componentDynamic">
+  <ndc-dynamic [ndcDynamicComponent]="GenericFormComponentComponent"
+               [ndcDynamicInputs]="{component : componentDynamic, form, valuesForm, uiForm}"></ndc-dynamic>
+</ng-template>

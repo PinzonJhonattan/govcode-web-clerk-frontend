@@ -1,0 +1,334 @@
+<!-- Link normal -->
+<a
+  *ngIf="
+    isLink(item) &&
+    !isForm(item) &&
+    !isFunction(item.route) &&
+    !isSpecialFunction(item)
+  "
+  [class.hover:bg-hover]="!(isActive$ | async)(item)"
+  [ngClass]="{
+    'bg-primary text-primary-contrast': (isActive$ | async)(item),
+    'navigation-color': !(isActive$ | async)(item)
+  }"
+  [routerLink]="item.route"
+  class="navigation-item"
+  matRipple
+>
+  {{ item.label }}
+</a>
+
+<!-- Elemento Form -->
+<!--<a
+  *ngIf="isForm(item)"
+  [class.hover:bg-hover]="!(isActive$ | async)(item)"
+  [ngClass]="{
+    'bg-primary text-primary-contrast': (isActive$ | async)(item),
+    'navigation-color': !(isActive$ | async)(item)
+  }"
+  [routerLink]="item.route"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: false }"
+  matRipple
+  class="navigation-item"
+  (click)="handleItemClick($event, item)"
+>
+  <mat-icon
+    *ngIf="item.icon"
+    [svgIcon]="item.icon"
+    class="navigation-item-icon"
+  ></mat-icon>
+  <span class="navigation-item-label">{{ item.label }}</span>
+  <span
+    *ngIf="item.badge"
+    [ngClass]="[item.badge.bgClass, item.badge.textClass]"
+    class="navigation-item-badge"
+    >{{ item.badge.value }}</span
+  >
+</a>
+-->
+
+<a
+  *ngIf="isForm(item)"
+  [class.hover:bg-hover]="!(isActive$ | async)(item)"
+  [ngClass]="{
+    'bg-primary text-primary-contrast': (isActive$ | async)(item),
+    'navigation-color': !(isActive$ | async)(item)
+  }"
+  [routerLink]="item.route"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: false }"
+  matRipple
+  class="navigation-item"
+  (click)="handleItemClick($event, item)"
+>
+  <mat-icon
+    *ngIf="item.icon"
+    [svgIcon]="item.icon"
+    class="navigation-item-icon"
+  ></mat-icon>
+  <span class="navigation-item-label">{{ item.label }}</span>
+  <span
+    *ngIf="item.badge"
+    [ngClass]="[item.badge.bgClass, item.badge.textClass]"
+    class="navigation-item-badge"
+  >{{ item.badge.value }}</span>
+</a>
+
+<!-- Link con función de ruta -->
+<div
+  (click)="item.route()"
+  *ngIf="isLink(item) && isFunction(item.route) && !isSpecialFunction(item)"
+  [class.hover:bg-hover]="!(isActive$ | async)(item)"
+  class="navigation-item navigation-color"
+  matRipple
+>
+  {{ item.label }}
+</div>
+
+<!-- Link con función especial -->
+<div
+  (click)="handleSpecialFunction($event, item)"
+  *ngIf="isLink(item) && isSpecialFunction(item)"
+  [class.hover:bg-hover]="!(isActive$ | async)(item)"
+  class="navigation-item navigation-color"
+  matRipple
+>
+  {{ item.label }}
+</div>
+
+<!-- Dropdown o Subheading con hijos -->
+<ng-container
+  *ngIf="(isSubheading(item) && item.children?.length > 0) || isDropdown(item)"
+>
+  <div
+    [class.hover:bg-hover]="!(isActive$ | async)(item)"
+    [matMenuTriggerFor]="menu"
+    [ngClass]="{
+      'bg-primary text-primary-contrast': (isActive$ | async)(item),
+      'navigation-color': !(isActive$ | async)(item)
+    }"
+    class="navigation-item"
+    matRipple
+  >
+    {{ item.label }}
+  </div>
+
+  <mat-menu #menu="matMenu" yPosition="below">
+    <ng-container *ngFor="let child of item.children">
+      <!-- Link normal en menú -->
+      <a
+        *ngIf="
+          isLink(child) &&
+          !isForm(child) &&
+          !isFunction(child.route) &&
+          !isSpecialFunction(child)
+        "
+        [routerLink]="child.route"
+        [ngClass]="{ 'text-primary': (isActive$ | async)(child) }"
+        class="navigation-menu-item"
+        mat-menu-item
+      >
+        <mat-icon [svgIcon]="child.icon" class="text-current"></mat-icon>
+        <span>{{ child.label }}</span>
+      </a>
+
+      <!-- Elemento Form en menú -->
+      <a
+        *ngIf="isForm(child)"
+        [routerLink]="child.route"
+        [ngClass]="{ 'text-primary': (isActive$ | async)(child) }"
+        class="navigation-menu-item"
+        mat-menu-item
+        (click)="handleItemClick($event, child)"
+      >
+        <mat-icon [svgIcon]="child.icon" class="text-current"></mat-icon>
+        <span>{{ child.label }}</span>
+      </a>
+
+      <!-- Link con función de ruta en menú -->
+      <div
+        (click)="child.route()"
+        *ngIf="
+          isLink(child) && isFunction(child.route) && !isSpecialFunction(child)
+        "
+        class="navigation-menu-item"
+        mat-menu-item
+      >
+        <mat-icon [svgIcon]="child.icon" class="text-current"></mat-icon>
+        <span>{{ child.label }}</span>
+      </div>
+
+      <!-- Link con función especial en menú -->
+      <div
+        (click)="handleSpecialFunction($event, child)"
+        *ngIf="isLink(child) && isSpecialFunction(child)"
+        class="navigation-menu-item"
+        mat-menu-item
+      >
+        <mat-icon [svgIcon]="child.icon" class="text-current"></mat-icon>
+        <span>{{ child.label }}</span>
+      </div>
+
+      <!-- Dropdown en menú -->
+      <ng-container *ngIf="isDropdown(child)">
+        <button
+          [matMenuTriggerFor]="level1"
+          [ngClass]="{ 'text-primary': (isActive$ | async)(child) }"
+          class="navigation-menu-item"
+          mat-menu-item
+        >
+          <mat-icon [svgIcon]="child.icon" class="text-current"></mat-icon>
+          <span>{{ child.label }}</span>
+        </button>
+
+        <mat-menu #level1="matMenu" yPosition="below">
+          <ng-container *ngFor="let item of child.children">
+            <ng-container
+              [ngTemplateOutletContext]="{ item: item }"
+              [ngTemplateOutlet]="linkTemplate"
+            ></ng-container>
+
+            <ng-container *ngIf="isDropdown(item)">
+              <button
+                [matMenuTriggerFor]="level2"
+                class="navigation-menu-item"
+                [ngClass]="{ 'text-primary': (isActive$ | async)(item) }"
+                mat-menu-item
+              >
+                {{ item.label }}
+              </button>
+
+              <mat-menu #level2="matMenu" yPosition="below">
+                <ng-container *ngFor="let child of item.children">
+                  <ng-container
+                    [ngTemplateOutletContext]="{ item: child }"
+                    [ngTemplateOutlet]="linkTemplate"
+                  ></ng-container>
+
+                  <ng-container *ngIf="isDropdown(child)">
+                    <button
+                      [matMenuTriggerFor]="level3"
+                      class="navigation-menu-item"
+                      [ngClass]="{ 'text-primary': (isActive$ | async)(child) }"
+                      mat-menu-item
+                    >
+                      {{ child.label }}
+                    </button>
+
+                    <mat-menu #level3="matMenu" yPosition="below">
+                      <ng-container *ngFor="let item of child.children">
+                        <ng-container
+                          [ngTemplateOutletContext]="{ item: item }"
+                          [ngTemplateOutlet]="linkTemplate"
+                        ></ng-container>
+
+                        <ng-container *ngIf="isDropdown(item)">
+                          <button
+                            [matMenuTriggerFor]="level4"
+                            class="navigation-menu-item"
+                            [ngClass]="{
+                              'text-primary': (isActive$ | async)(item)
+                            }"
+                            mat-menu-item
+                          >
+                            {{ item.label }}
+                          </button>
+
+                          <mat-menu #level4="matMenu" yPosition="below">
+                            <ng-container *ngFor="let child of item.children">
+                              <ng-container
+                                [ngTemplateOutletContext]="{ item: child }"
+                                [ngTemplateOutlet]="linkTemplate"
+                              ></ng-container>
+
+                              <ng-container *ngIf="isDropdown(child)">
+                                <button
+                                  [matMenuTriggerFor]="level5"
+                                  class="navigation-menu-item"
+                                  [ngClass]="{
+                                    'text-primary': (isActive$ | async)(child)
+                                  }"
+                                  mat-menu-item
+                                >
+                                  {{ child.label }}
+                                </button>
+
+                                <mat-menu #level5="matMenu" yPosition="below">
+                                  <ng-container
+                                    *ngFor="let item of child.children"
+                                  >
+                                    <ng-container
+                                      [ngTemplateOutletContext]="{ item: item }"
+                                      [ngTemplateOutlet]="linkTemplate"
+                                    ></ng-container>
+                                  </ng-container>
+                                </mat-menu>
+                              </ng-container>
+                            </ng-container>
+                          </mat-menu>
+                        </ng-container>
+                      </ng-container>
+                    </mat-menu>
+                  </ng-container>
+                </ng-container>
+              </mat-menu>
+            </ng-container>
+          </ng-container>
+        </mat-menu>
+      </ng-container>
+    </ng-container>
+  </mat-menu>
+
+  <ng-template #linkTemplate let-item="item">
+    <!-- Link normal en template -->
+    <a
+      *ngIf="
+        isLink(item) &&
+        !isForm(item) &&
+        !isFunction(item.route) &&
+        !isSpecialFunction(item)
+      "
+      [routerLink]="item.route"
+      class="navigation-menu-item"
+      [ngClass]="{ 'text-primary': (isActive$ | async)(item) }"
+      mat-menu-item
+      >{{ item.label }}</a
+    >
+
+    <!-- Elemento Form en template -->
+    <a
+      *ngIf="isForm(item)"
+      [routerLink]="item.route"
+      class="navigation-menu-item"
+      [ngClass]="{ 'text-primary': (isActive$ | async)(item) }"
+      mat-menu-item
+      (click)="handleItemClick($event, item)"
+      >{{ item.label }}</a
+    >
+
+    <!-- Link con función de ruta en template -->
+    <div
+      (click)="item.route()"
+      *ngIf="
+        isLink(item) && isFunction(item.route) && !isSpecialFunction(item)
+      "
+      class="navigation-menu-item"
+      [ngClass]="{ 'text-primary': (isActive$ | async)(item) }"
+      mat-menu-item
+    >
+      {{ item.label }}
+    </div>
+
+    <!-- Link con función especial en template -->
+    <div
+      (click)="handleSpecialFunction($event, item)"
+      *ngIf="isLink(item) && isSpecialFunction(item)"
+      class="navigation-menu-item"
+      [ngClass]="{ 'text-primary': (isActive$ | async)(item) }"
+      mat-menu-item
+    >
+      {{ item.label }}
+    </div>
+  </ng-template>
+</ng-container>

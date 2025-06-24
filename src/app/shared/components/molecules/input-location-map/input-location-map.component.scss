@@ -1,0 +1,4 @@
+.location-map-container {
+  @apply flex flex-col md:flex-row md:gap-x-[24px];
+  @apply max-w-[100%];
+}

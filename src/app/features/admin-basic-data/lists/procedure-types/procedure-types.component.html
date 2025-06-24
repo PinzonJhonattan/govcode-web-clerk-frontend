@@ -1,0 +1,25 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de tipos de trámites</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Tipos de trámites']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Tipos de trámites">
+                <div style="padding-top: 24px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+                    <app-list-of-procedure-types [comesFromCreateForm]="comesFromCreateForm"></app-list-of-procedure-types>
+                </div>
+            </mat-tab>
+            <mat-tab label="Crear tipo de trámite">
+                <div class="p-12">
+                    <app-create-procedure-types (formSubmitted)="handleFormSubmitted()"></app-create-procedure-types>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

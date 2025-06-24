@@ -1,0 +1,16 @@
+<vex-page-layout>
+    <vex-page-layout-content
+        [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+        class="mt-6"
+    >
+      <app-complex-table
+        nameTable="Tipos de calidad de personas"
+        [stateData]="state"
+        [columns]="columns"
+        [dataSourceTable]="dataTablePersonTypes"
+        [messageNotFound]="'No se han encontrado trámites'"
+        (deleteEvent)="handleDeleteEvent($event)"
+      ></app-complex-table>
+    </vex-page-layout-content>
+</vex-page-layout>

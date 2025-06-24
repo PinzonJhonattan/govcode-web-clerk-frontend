@@ -1,0 +1,3 @@
+  <ndc-dynamic *ngIf="!isHide" [ndcDynamicComponent]="formComponents[component?.properties?.type] ? formComponents[component?.properties?.type || 'text']['component'] : formComponents['text']['component']"
+               [ndcDynamicInputs]="{component, form, valuesForm, uiForm}"></ndc-dynamic>
+

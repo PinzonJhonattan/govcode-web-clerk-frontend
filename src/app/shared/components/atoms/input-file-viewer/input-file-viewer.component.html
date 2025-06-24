@@ -1,0 +1,34 @@
+<div
+  class="relative rounded-md border border-primary bg-gray-50 p-4 shadow-md  text-center h-full "
+>
+  <label
+    [for]="label"
+    class="flex flex-col items-center gap-2"
+  >
+    <mat-icon
+      class="icon-2xl text-primary  mr-1"
+      svgIcon="mat:file_present"
+    ></mat-icon>
+    <p class="text-gray-600 font-medium text-paragraph break-words w-[100%]">{{label}}</p>
+    <a *ngIf="statusDownloadDocument != 'loading'"
+      class="text-md max-w-full break-words cursor-pointer flex items-center"
+      (click)="getDocument()"
+    >
+      <mat-icon
+        class="icon-xs text-primary  mr-1"
+        svgIcon="mat:visibility"
+      ></mat-icon>
+      <span class="underline underline-offset-2 hover:text-primary block">Ver Documento</span>
+    </a>
+    <p *ngIf="statusDownloadDocument == 'error'"
+       class="text-md max-w-full break-words cursor-pointer"
+    >
+      Ha ocurrido un error al descargar documento, intentelo de nuevo
+    </p>
+    <p *ngIf="statusDownloadDocument == 'loading'"
+       class="text-md max-w-full break-words cursor-pointer flex items-center"
+    >
+      Descargando documento...
+    </p>
+  </label>
+</div>

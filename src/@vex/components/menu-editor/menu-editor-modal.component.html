@@ -1,0 +1,195 @@
+<div class="modal-container">
+  <div class="header">
+    <h2 mat-dialog-title>Editor de Menú de Navegación</h2>
+    <p class="subtitle">Personaliza la estructura del menú para el panel de administración</p>
+  </div>
+
+  <mat-dialog-content class="editor-content">
+    <form [formGroup]="form">
+      <div class="editor-layout">
+        <div class="json-editor-container">
+          <div class="panel-header">
+            <h3>Código JSON</h3>
+            <button class="formatJsonButton" mat-button color="primary" (click)="formatJson()" [disabled]="!form.get('menuJson')?.value">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-svg">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              Formatear JSON
+            </button>
+          </div>
+
+          <mat-form-field appearance="outline" class="json-editor-field">
+            <textarea
+              matInput
+              formControlName="menuJson"
+              rows="25"
+              placeholder="Ingresa la estructura JSON del menú"
+              class="code-editor">
+            </textarea>
+            <mat-hint>Edita el JSON directamente para personalizar el menú</mat-hint>
+            <mat-error *ngIf="jsonError">{{ jsonError }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="preview-container">
+          <div class="panel-header">
+            <h3>Vista Previa</h3>
+            <span class="update-indicator" *ngIf="!jsonError">Actualizado</span>
+            <span class="error-indicator" *ngIf="jsonError">Error en el JSON</span>
+          </div>
+
+          <div class="menu-preview-wrapper">
+            <div class="menu-preview-panel">
+              <div class="sidenav-header">
+                <div class="app-brand">
+                  <img src="assets/img/para fondo azul vertical.png" alt="Logo" class="app-logo">
+                  <span class="app-name">Panel Admin</span>
+                </div>
+              </div>
+
+              <div class="sidenav-content">
+                <ng-container *ngIf="previewMenu.length > 0">
+                  <div *ngFor="let item of previewMenu" class="menu-item">
+
+                    <div *ngIf="item.type === 'subheading'" class="menu-subheading">
+                      <span class="subheading-label">{{item.label}}</span>
+                    </div>
+
+                    <div *ngIf="item.type === 'link'" class="menu-link">
+                      <span class="menu-label">{{item.label}}</span>
+                    </div>
+
+                    <div *ngIf="item.type === 'modal'" class="menu-modal">
+                      <span class="menu-label">{{item.label}}</span>
+                      <span class="modal-indicator">modal</span>
+                    </div>
+
+                    <div *ngIf="item.type === 'dropdown'" class="menu-dropdown">
+                      <div class="dropdown-header">
+                        <span class="menu-label">{{item.label}}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </div>
+
+                      <div class="submenu" *ngIf="item.children && item.children.length > 0">
+                        <div *ngFor="let child of item.children" class="submenu-item">
+
+                          <div *ngIf="child.type === 'link'" class="submenu-link">
+                            <span class="submenu-label">{{child.label}}</span>
+                          </div>
+
+                          <div *ngIf="child.type === 'modal'" class="submenu-modal">
+                            <span class="submenu-label">{{child.label}}</span>
+                            <span class="modal-indicator">modal</span>
+                          </div>
+
+                          <div *ngIf="child.type === 'dropdown'" class="nested-dropdown">
+                            <div class="nested-header">
+                              <span class="submenu-label">{{child.label}}</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nested-icon">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                              </svg>
+                            </div>
+
+                            <div class="deeper-submenu" *ngIf="child.children && child.children.length > 0">
+                              <div *ngFor="let grandchild of child.children" class="deeper-submenu-item">
+                                <div *ngIf="grandchild.type === 'link'" class="deeper-link">
+                                  <span class="deeper-label">{{grandchild.label}}</span>
+                                </div>
+
+                                <div *ngIf="grandchild.type === 'modal'" class="deeper-modal">
+                                  <span class="deeper-label">{{grandchild.label}}</span>
+                                  <span class="modal-indicator">modal</span>
+                                </div>
+
+                                <div *ngIf="grandchild.type === 'dropdown'" class="deepest-dropdown">
+                                  <div class="deepest-header">
+                                    <span class="deeper-label">{{grandchild.label}}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="deepest-icon">
+                                      <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <div *ngIf="previewMenu.length === 0 && !jsonError" class="empty-preview">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="preview-icon">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="9" y1="9" x2="15" y2="9"></line>
+                    <line x1="9" y1="13" x2="15" y2="13"></line>
+                    <line x1="9" y1="17" x2="13" y2="17"></line>
+                  </svg>
+                  <p>No hay elementos para mostrar en la vista previa.</p>
+                </div>
+
+                <div *ngIf="jsonError" class="error-preview">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f44336" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="preview-icon">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <p>No se puede mostrar la vista previa debido a errores en el JSON.</p>
+                  <p class="error-detail">{{ jsonError }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-tips">
+              <h4>Consejos para editar el menú</h4>
+              <ul>
+                <li><strong>type</strong>: Puede ser "link", "dropdown", "modal" o "subheading"</li>
+                <li><strong>label</strong>: El texto que se muestra en el menú</li>
+                <li><strong>icon</strong>: Nombre del ícono (opcional)</li>
+                <li><strong>route</strong>: Ruta a la que navegará el enlace</li>
+                <li><strong>function</strong>: Función especial como "openMenuEditor"</li>
+              </ul>
+
+              <button mat-button color="primary" class="example-button" (click)="showJsonExample()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="example-button-icon">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span class="example-button-text">Ver estructura de ejemplo</span>
+              </button>
+
+              <div class="scroll-hint">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3f51b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="scroll-icon">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+                <span>Desliza para ver más elementos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="form.invalid || jsonError"
+      (click)="saveChanges()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="save-icon">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+        <polyline points="7 3 7 8 15 8"></polyline>
+      </svg>
+      Guardar Cambios
+    </button>
+  </mat-dialog-actions>
+</div>

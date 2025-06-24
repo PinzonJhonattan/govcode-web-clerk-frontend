@@ -1,0 +1,11 @@
+<div class="input-checkbox-container" [ngClass]="{disabled : fieldControl.disabled, 'pointer-events-none' : readonly}">
+  <mat-checkbox
+    [formControl]="fieldControl"
+    color="primary"
+  >
+    {{label}}
+  </mat-checkbox>
+  <div class="input-checkbox-description mt-2">
+    <p class="text-xs">{{description}}</p>
+  </div>
+</div>

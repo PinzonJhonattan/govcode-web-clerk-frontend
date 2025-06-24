@@ -1,0 +1,35 @@
+<mat-form-field
+  class="mat-field-container w-full"
+  appearance="outline"
+>
+  <mat-label>{{label}}</mat-label>
+  <input
+    *ngIf="inputMask"
+    [formControl]="fieldControl"
+    [placeholder]="placeholder || 'Ingrese un valor en el campo'"
+    [name]="name"
+    [type]="type"
+    [mask]="inputMask"
+    [dropSpecialCharacters]="!keepMask"
+    [thousandSeparator]="'.'"
+    [prefix]="prefix || ''"
+    [suffix]="suffix || ''"
+    [validation]="false"
+    [readonly]="readonly"
+    [attr.inputmode]="type === 'digit' || type === 'currency' ? 'numeric' : type"
+    matInput
+  >
+  <input
+    *ngIf="!inputMask"
+    [formControl]="fieldControl"
+    [placeholder]="placeholder || 'Ingrese un valor en el campo'"
+    [name]="name"
+    [type]="type"
+    [readonly]="readonly"
+    [attr.inputmode]="type === 'digit' || type === 'currency' ? 'numeric' : type"
+    matInput
+  >
+  <mat-error class="font-bold" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error>
+</mat-form-field>

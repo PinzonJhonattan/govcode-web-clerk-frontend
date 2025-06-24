@@ -1,0 +1,14 @@
+.users-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0px;
+}
+
+.toggle-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 100%;
+}

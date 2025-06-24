@@ -1,0 +1,45 @@
+<div class="flex justify-center p-6" *ngIf="state == 'loading'; else elseBlock"><mat-spinner
+        [diameter]="30"></mat-spinner></div>
+<ng-template #elseBlock>
+    <mat-card>
+        <form [formGroup]="authorizedUsersForm" (ngSubmit)="onSubmit(authorizedUsersForm.value)">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Usuario</mat-label>
+                <mat-select formControlName="role" [(ngModel)]="selectedRole" [compareWith]="compareRoles">
+                    <mat-option *ngFor="let role of roles" [value]="role">{{ role.label }}</mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="authorizedUsersForm.controls.role.invalid && authorizedUsersForm.controls.role.touched">
+                    Usuario inválido
+                </mat-error>
+            </mat-form-field>
+
+            <!-- <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre de usuario</mat-label>
+                <input matInput formControlName="username" [readonly]="onlyRead">
+                <mat-error
+                    *ngIf="authorizedUsersForm.controls.username.invalid && authorizedUsersForm.controls.username.touched">
+                    Nombre de usuario inválido
+                </mat-error>
+            </mat-form-field> -->
+
+            <!-- <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" [readonly]="onlyRead">
+                <mat-error
+                    *ngIf="authorizedUsersForm.controls.email.invalid && authorizedUsersForm.controls.email.touched">
+                    Email inválido
+                </mat-error>
+            </mat-form-field> -->
+
+            <div>
+                <div *ngIf="updatePersonType; else addBlock">
+                    <button mat-raised-button [disabled]="onlyRead" class="add-button" type="submit">Actualizar</button>
+                </div>
+                <ng-template #addBlock>
+                    <button mat-raised-button [disabled]="onlyRead" class="add-button" type="submit">Agregar</button>
+                </ng-template>
+            </div>
+        </form>
+    </mat-card>
+</ng-template>

@@ -1,0 +1,42 @@
+<div class="d-flex justify-center mb-6">
+  <p style="font-weight: bold; font-size: 30px;">
+    Gráfica de comparaciones
+  </p>
+</div>
+<form class="mt-2" [formGroup]="formChart">
+  <div style="display: flex; justify-content: space-between; gap: 20px;">
+    <mat-form-field style="flex: 1;">
+      <mat-label>Tipo de Gráfico</mat-label>
+      <mat-select formControlName="chartType">
+        <mat-option *ngFor="let type of chart_type" [value]="type.value">
+          {{ type.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="flex: 1;">
+      <mat-label>Comparar gráfica con respecto a</mat-label>
+      <mat-select formControlName="compareGraphWithRespectTo" (valueChange)="changeCompareGraph($event)" [compareWith]="compareFn">
+        <mat-option *ngFor="let type of compareGraphWithRespectTo" [value]="type">
+          {{ type.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>
+
+
+<div *ngIf="formChart.controls['chartType'].value === 'bar' && formChart.controls['compareGraphWithRespectTo'].value">
+  <ngx-charts-bar-vertical [view]="view" [results]="single" [gradient]="gradient" [xAxis]="showXAxis"
+    [scheme]="colorScheme" [legendTitle]="'Leyenda'"
+    [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+  </ngx-charts-bar-vertical>
+</div>
+
+<div *ngIf="formChart.controls['chartType'].value === 'pie' && formChart.controls['compareGraphWithRespectTo'].value">
+  <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [legend]="showLegend"
+    [scheme]="colorScheme" [legendTitle]="'Leyenda'"
+    [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient">
+  </ngx-charts-pie-chart>
+</div>

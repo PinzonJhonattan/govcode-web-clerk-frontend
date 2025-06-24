@@ -1,0 +1,10 @@
+<ng-container *ngIf="renderSectionTemplate">
+  <ndc-dynamic [ndcDynamicComponent]="componentToRender"
+               [ndcDynamicInputs]="dynamicProps">
+  </ndc-dynamic>
+</ng-container>
+<ng-template #renderSectionTemplate let-components="components">
+  <ndc-dynamic [ndcDynamicComponent]="formTypes['lineal']"
+               [ndcDynamicInputs]="{fieldsForm : components, form, valuesForm, uiForm}">
+  </ndc-dynamic>
+</ng-template>

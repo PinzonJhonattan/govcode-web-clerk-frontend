@@ -1,0 +1,27 @@
+.home-container-layout {
+  @apply px-[1rem];
+  @apply py-[1rem];
+}
+.home-container {
+  @apply h-full min-h-[100vh];
+  @apply bg-white;
+  @apply rounded-md;
+}
+.home-container .home-container__welcome{
+  @apply flex flex-wrap flex-col items-center;
+  @apply pt-[2rem];
+}
+
+.home-container__welcome .home-container__welcome-logo-entity {
+  @apply w-[15rem] h-auto;
+}
+.home-container__welcome .home-container__welcome-title {
+  font-weight: 700;
+  @apply text-[2.2rem];
+}
+.home-container__welcome .home-container__welcome-description {
+  @apply mt-2;
+  @apply text-center;
+  @apply font-normal;
+  @apply text-[1.05rem];
+}

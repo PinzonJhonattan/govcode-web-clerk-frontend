@@ -1,0 +1,41 @@
+<div class="">
+    <a
+        (click)="changeRoleModal()"
+        class="vex-user-menu-item"
+        matRipple
+        matRippleColor="rgb(var(--color-primary), 0.1)"
+    >
+        <mat-icon
+            class="vex-user-menu-item__icon icon-sm"
+            svgIcon="mat:group"
+        ></mat-icon>
+        <div class="vex-user-menu-item__label">Rol</div>
+    </a>
+    <a
+        (click)="changePassword()"
+        class="vex-user-menu-item"
+        matRipple
+        matRippleColor="rgb(var(--color-primary), 0.1)"
+    >
+        <mat-icon
+            class="vex-user-menu-item__icon icon-sm"
+            svgIcon="mat:vpn_key"
+        ></mat-icon>
+        <div class="vex-user-menu-item__label">Cambiar contraseña</div>
+    </a>
+
+    <div class="border-b border-divider mx-4"></div>
+
+    <a
+        (click)="close()"
+        class="vex-user-menu-item"
+        matRipple
+        matRippleColor="rgb(var(--color-primary), 0.1)"
+    >
+        <mat-icon
+            class="vex-user-menu-item__icon icon-sm"
+            svgIcon="mat:logout"
+        ></mat-icon>
+        <div class="vex-user-menu-item__label">Cerrar Sesión</div>
+    </a>
+</div>

@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Generador de direcciones</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="w-[40%]">
+    <app-input-select [fieldControl]="addressForm.controls.zone" label="Ubicación" name="ubicacion" [options]="optionsDirections.zone"></app-input-select>
+  </div>
+  <h2 class="direction">Dirección principal</h2>
+  <div class="grid grid-cols-16 gap-[16px]">
+    <div class="col-span-4">
+      <app-input-select [fieldControl]="addressForm.controls.principalVia" label="Vía Principal" name="principalvia" [options]="optionsDirections.viaDirection"></app-input-select>
+    </div>
+    <div class="col-span-4">
+      <app-input-text [fieldControl]="addressForm.controls.principalNameNumberVia" label="Nombre o número de vía" name="principalnumber"></app-input-text>
+    </div>
+    <div class="col-span-2">
+      <app-input-select [fieldControl]="addressForm.controls.principalLetter" label="Letra" name="principalletter"  [options]="optionsDirections.letterDirection"></app-input-select>
+    </div>
+    <div class="col-span-3">
+      <app-input-text [fieldControl]="addressForm.controls.principalPrefixBis" label="Prefijo Bis" name="principalprefixbis"></app-input-text>
+    </div>
+    <div class="col-span-3">
+      <app-input-text [fieldControl]="addressForm.controls.principalLetterPrefix" label="Número" name="principalletterprefix"></app-input-text>
+    </div>
+  </div>
+  <h2 class="direction">Dirección secundaria</h2>
+  <div class="grid grid-cols-16 gap-[16px]">
+    <div class="col-span-4">
+      <app-input-select [fieldControl]="addressForm.controls.secondaryVia" label="Vía secundaria" name="secondaryvia" [options]="optionsDirections.viaDirection"></app-input-select>
+    </div>
+    <div class="col-span-4">
+      <app-input-text [fieldControl]="addressForm.controls.secondaryNameNumberVia" label="Número" name="secondaryNameNumberVia"></app-input-text>
+    </div>
+    <div class="col-span-2">
+      <app-input-select [fieldControl]="addressForm.controls.secondaryLetter" label="Letra" name="secondaryLetter"  [options]="optionsDirections.letterDirection"></app-input-select>
+    </div>
+    <div class="col-span-3">
+      <app-input-text [fieldControl]="addressForm.controls.secondarySuffixBis" label="Sufijo Bis" name="secondarySuffixBis"></app-input-text>
+    </div>
+    <div class="col-span-3">
+      <app-input-text [fieldControl]="addressForm.controls.secondaryLetterSuffix" label="Letra sufijo" name="secondaryLetterSuffix"></app-input-text>
+    </div>
+  </div>
+  <div class="mt-[24px]">
+    <app-input-text [fieldControl]="generateAddress.controls.address" label="Dirección generada" name="generateddirection" [readonly]="true"></app-input-text>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+  <button
+    class="bg-primary text-white rounded-full"
+    mat-raised-button
+    type="button"
+    (click)="saveAddress()"
+  >
+    <mat-icon svgIcon="mat:save" class="icon-xs mr-1 ml-0"></mat-icon>
+    Guardar
+  </button>
+</mat-dialog-actions>

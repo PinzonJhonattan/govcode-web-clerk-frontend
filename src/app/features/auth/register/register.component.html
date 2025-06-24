@@ -1,0 +1,186 @@
+<div class="w-full flex flex-col items-center justify-between">
+
+<div class="w-full flex p-[5rem] flex-col items-center justify-center">
+  <div
+    class="card   w-full max-w-md"
+  >
+    <div class="p-6 pb-0 flex flex-col items-center justify-center">
+      <div class="fill-current text-center">
+        <img
+          class="w-[12rem]"
+          src="assets/img/logo%20govcodepro.png"
+        >
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <h2 class="title m-0">Bienvenido</h2>
+      <h4 class="body-2 text-secondary m-0">Crear cuenta</h4>
+    </div>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="p-6 flex flex-col gap-4"
+    >
+      <div class="flex flex-col">
+        <mat-form-field class="flex-1 pb-1 mb-[8px]" appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input
+            formControlName="username"
+            variant="filled"
+            matInput
+            required
+          >
+          <mat-hint>El nombre de usuario debe contener minimo una letra. Puede tener puntos y números, sin espacios</mat-hint>
+          <mat-error *ngIf="form.get('username').invalid && form.get('username').hasError('required')">
+            Usuario requerido
+          </mat-error>
+          <mat-error *ngIf="form.get('username').invalid && form.get('username').hasError('maxlength')">
+            Debe contener máximo {{ form.get('username').errors['maxlength'].requiredLength }} caracteres
+          </mat-error>
+          <mat-error *ngIf="form.get('username').hasError('pattern')">{{form.get('username').errors.pattern.message}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-1 pb-1" appearance="outline">
+          <mat-label>Primer nombre</mat-label>
+          <input
+            formControlName="firstName"
+            variant="filled"
+            matInput
+            required
+          >
+          <mat-error *ngIf="form.get('firstName').hasError('required')">Por favor ingresa el primer nombre </mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-1 pb-1" appearance="outline">
+          <mat-label>Primer apellido</mat-label>
+          <input
+            formControlName="lastName"
+            variant="filled"
+            matInput
+            required
+          >
+          <mat-error *ngIf="form.get('lastName').hasError('required')">Por favor ingresa el primer apellido </mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-1 pb-1" appearance="outline">
+          <mat-label>Correo</mat-label>
+          <input
+            formControlName="email"
+            variant="filled"
+            matInput
+            required
+          >
+          <mat-error *ngIf="form.get('email').hasError('required')">Por favor ingresa el correo</mat-error>
+          <mat-error *ngIf="form.get('email').hasError('email')">Por favor ingresa un correo valido</mat-error>
+
+
+        </mat-form-field>
+        <mat-form-field class="flex-1 mb-[16px]" appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            [type]="inputTypePassword"
+            formControlName="password"
+            matInput
+            required
+          >
+          <button
+            (click)="toggleVisibilityPassword()"
+            mat-icon-button
+            matSuffix
+            matTooltip="Cambiar visibilidad"
+            type="button"
+          >
+            <mat-icon
+              *ngIf="visiblePassword"
+              svgIcon="mat:visibility"
+            ></mat-icon>
+            <mat-icon
+              *ngIf="!visiblePassword"
+              svgIcon="mat:visibility_off"
+            ></mat-icon>
+          </button>
+          <mat-hint>Mínimo ocho (8) caracteres, un número, una letra minúscula, una letra mayúscula</mat-hint>
+          <mat-error *ngIf="form.get('password').hasError('required')">Por favor ingresa una contraseña</mat-error>
+          <mat-error *ngIf="form.get('password').hasError('pattern')">{{form.get('password').errors.pattern.message}}</mat-error>
+
+
+        </mat-form-field>
+        <mat-form-field class="flex-1" appearance="outline">
+          <mat-label>Repetir Contraseña</mat-label>
+          <input
+            [type]="inputTypeRepeatPassword"
+            formControlName="passwordRepeat"
+            matInput
+            required
+          >
+          <button
+            (click)="toggleVisibilityRepeatPassword()"
+            mat-icon-button
+            matSuffix
+            matTooltip="Cambiar visibilidad"
+            type="button"
+          >
+            <mat-icon
+              *ngIf="visibleRepeatPassword"
+              svgIcon="mat:visibility"
+            ></mat-icon>
+            <mat-icon
+              *ngIf="!visibleRepeatPassword"
+              svgIcon="mat:visibility_off"
+            ></mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('passwordRepeat').hasError('required')">Por favor ingresa de nuevo la contraseña</mat-error>
+          <mat-error *ngIf="form.get('passwordRepeat').hasError('passwordsMismatch')">Las contraseñas no coinciden</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="my-[8px]">
+      <app-recaptcha [fieldControl]="form.controls['isHuman']"
+                     (isValidCaptcha)="isValidCaptcha($event)"></app-recaptcha>
+      </div>
+      <ng-container *ngIf="status === 'loading'">
+        <div class="flex flex-col justify-center items-center gap-5">
+          <mat-spinner diameter="30"></mat-spinner>
+          <p>Registrando ususario</p>
+        </div>
+      </ng-container>
+
+      <app-alert-error
+        *ngIf="messageError"
+        [messageError]="messageError"
+      ></app-alert-error>
+
+      <button
+        color="primary"
+        mat-raised-button
+        type="submit"
+      >
+        Registrarme
+      </button>
+
+      <div class="flex items-center gap-4 caption mt-1" >
+        <p class="caption">Ya tienes cuenta?</p>
+        <a
+          [routerLink]="['/login']"
+          class="text-primary underline caption font-bold"
+        >
+          Iniciar sesión
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+  <div class="block px-4 py-10 md:px-10 md:py-10 w-full">
+    <div class="flex flex-wrap gap-10 justify-center md:justify-between w-full">
+      <img
+        class="w-[14rem]"
+        src="assets/img/logo%20govcodepro.png"
+      >
+      <img
+        class="w-[12rem]"
+        src="assets/img/logo%20sasoftco%20horizontal.png"
+      >
+    </div>
+
+  </div>
+</div>

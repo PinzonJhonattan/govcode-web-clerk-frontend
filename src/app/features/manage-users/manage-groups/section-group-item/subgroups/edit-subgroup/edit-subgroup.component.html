@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Editar subgrupo</h1>
+<div mat-dialog-content>
+    <form [formGroup]="editSubGroupsForm" (ngSubmit)="handleEditSubGroup()"
+          style="display: flex; flex-direction: column; align-items: center;">
+      <mat-form-field class="example-full-width" style="margin-bottom: 20px; width: 100%;">
+        <mat-label>Nombre del subgrupo</mat-label>
+        <input matInput formControlName="name" >
+        <mat-error
+          *ngIf="editSubGroupsForm.controls['name'].invalid && (editSubGroupsForm.controls['name'].dirty || editSubGroupsForm.controls['name'].touched)">
+          Este campo es obligatorio.
+        </mat-error>
+
+      </mat-form-field>
+      <div class="flex justify-center mb-4 " *ngIf="statusEditSubGroup == 'error'">
+        <app-alert-error [messageError]="messageError"></app-alert-error>
+      </div>
+      <div class="flex justify-center mb-4" *ngIf="statusEditSubGroup == 'loading'">
+        <div class="flex flex-col items-center gap-2">
+          <mat-spinner [diameter]="30"></mat-spinner>
+          Editando subgrupo...
+        </div>
+      </div>
+    </form>
+</div>
+<div mat-dialog-actions align="end" >
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button  color="primary"  (click)="handleEditSubGroup()">Editar subgrupo</button>
+</div>

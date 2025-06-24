@@ -1,0 +1,19 @@
+.reload-icon {
+  transition: transform 0.3s ease;
+}
+
+button:hover .reload-icon {
+  transform: rotate(180deg);
+}
+
+.title {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

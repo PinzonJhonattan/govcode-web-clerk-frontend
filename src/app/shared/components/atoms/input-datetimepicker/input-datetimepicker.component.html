@@ -1,0 +1,17 @@
+<mat-form-field class="mat-field-container w-full" appearance="outline">
+  <mat-label>{{label}}</mat-label>
+  <input matInput
+         [formControl]="fieldControl"
+         [ngxMatTimepicker]="pickerA"
+         [placeholder]="placeholder"
+         [disableClick]="readonly || fieldControl.disabled"
+         readonly
+  />
+  <mat-icon matSuffix svgIcon="mat:watch_later"
+            (click)="!fieldControl.disabled && !readonly && pickerA.open()"></mat-icon>
+  <mat-error class="font-bold" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error>
+</mat-form-field>
+<ngx-mat-timepicker #pickerA>
+</ngx-mat-timepicker>

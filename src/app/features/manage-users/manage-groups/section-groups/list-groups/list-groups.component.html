@@ -1,0 +1,110 @@
+<div>
+  <div class="flex justify-center p-6" *ngIf="stateLoadingDataGroups === 'loading'">
+    <div class="flex flex-col items-center">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      Cargando grupos...
+    </div>
+  </div>
+  <div class="flex justify-center p-6" *ngIf="stateLoadingDataGroups === 'error'">
+    <div class="flex flex-col items-center">
+      Ha ocurrido un error al cargar los grupos, recargue de nuevo
+    </div>
+  </div>
+  <div *ngIf="stateLoadingDataGroups === 'success'">
+    <div class="flex flex-col items-center gap-5 justify-center mt-5" *ngIf="dataSource.data.length === 0; else treeGroupsData">
+      <p>No se han creado grupos aún. Cree uno nuevo</p>
+      <button (click)="createNewGroup()"  mat-raised-button color="primary" class="text-[0.8rem]"><mat-icon svgIcon="mat:group_add" class="icon-sm mr-2"></mat-icon>Crear Nuevo Grupo</button>
+    </div>
+    <ng-template #treeGroupsData>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <a (click)="changeGroup(node.item)"
+             [ngClass]="['item-group w-full min-h-[40px] flex justify-between hover:bg-primary/10', node.item.subGroupCount == 0 ? 'pl-[1rem]' : '']">
+        <span class="cursor-pointer hover:underline">
+          {{ node.item.name }}
+        </span>
+            <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_EDIT_GROUPS, APP_ROLES_PERMISSIONS.APP_DELETE_GROUPS]">
+
+            <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ node }"
+                    (click)="$event.stopPropagation()">
+              <mat-icon svgIcon="mat:more_vert"></mat-icon>
+            </button>
+            </ng-container>
+          </a>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+          <a (click)="changeGroup(node.item)"
+             [ngClass]="['item-group cursor-pointer hover:bg-primary/10', node.item.subGroupCount == 0 ? 'pl-[40px]' : '' ]">
+            <button mat-icon-button
+                    *ngIf="node.item.subGroupCount > 0"
+                    [attr.aria-label]="'Toggle ' + node.item.name" matTreeNodeToggle>
+
+              <ng-container *ngIf="treeControl.isExpanded(node); else collapsedIcon">
+                <mat-icon svgIcon="mat:expand_more"></mat-icon>
+              </ng-container>
+              <ng-template #collapsedIcon>
+                <mat-icon svgIcon="mat:chevron_right"></mat-icon>
+              </ng-template>
+            </button>
+
+            <div class="flex justify-between items-center w-full">
+              <div class="flex gap-2">
+            <span class="hover:underline">
+              {{ node.item.name }}
+            </span>
+                <mat-spinner [diameter]="20" *ngIf="node.isLoading"
+                             mode="indeterminate"
+                             class="example-tree-progress-bar"></mat-spinner>
+              </div>
+              <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_EDIT_GROUPS, APP_ROLES_PERMISSIONS.APP_DELETE_GROUPS]">
+                <div>
+                  <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ node }"
+                          (click)="$event.stopPropagation()">
+                    <mat-icon svgIcon="mat:more_vert"></mat-icon>
+                  </button>
+                </div>
+              </ng-container>
+            </div>
+
+          </a>
+
+        </mat-tree-node>
+      </mat-tree>
+
+      <mat-menu #menu="matMenu" class="menu-group-options">
+        <ng-template matMenuContent let-dataNode="node">
+          <div class="flex flex-col gap-2">
+            <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_CREATE_GROUPS]">
+              <button mat-menu-item (click)="createSubGroup(dataNode)">
+                <mat-icon color="primary" class="actionGroup-icon" svgIcon="mat:add_box"></mat-icon>
+                <span>Crear subgrupo</span>
+              </button>
+            </ng-container>
+
+            <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_EDIT_GROUPS]">
+              <button mat-menu-item (click)="openEditGroupModal(dataNode.item)">
+                <mat-icon color="primary" class="actionGroup-icon" svgIcon="mat:edit"></mat-icon>
+                <span>Editar grupo</span>
+              </button>
+            </ng-container>
+
+            <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_EDIT_GROUPS]">
+              <button mat-menu-item (click)="handleMoveGroup( dataNode.item)">
+                <mat-icon color="primary" class="actionGroup-icon" svgIcon="mat:send"></mat-icon>
+                <span>Mover grupo</span>
+              </button>
+            </ng-container>
+
+            <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_DELETE_GROUPS]">
+              <button mat-menu-item (click)="openDeleteGroupModal(dataNode.item)">
+                <mat-icon color="warn" class="actionGroup-icon" svgIcon="mat:delete_outline"></mat-icon>
+                <span>Eliminar grupo</span>
+              </button>
+            </ng-container>
+
+          </div>
+        </ng-template>
+      </mat-menu>
+    </ng-template>
+  </div>
+</div>

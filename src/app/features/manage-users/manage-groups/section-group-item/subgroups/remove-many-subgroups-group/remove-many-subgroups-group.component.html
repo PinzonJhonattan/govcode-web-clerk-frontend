@@ -1,0 +1,19 @@
+<ng-container *ngIf="statusRemoveGroupSubGroups == 'loading'">
+  <div class="flex justify-center items-center ">
+    <div class="flex flex-col items-center gap-2">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      Removiendo {{subgroupsLength == 1 ? 'subgrupo' : 'subgrupos'}} del grupo...
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="statusRemoveGroupSubGroups == 'init' || statusRemoveGroupSubGroups == 'error'" >
+  <h1 mat-dialog-title> Remover subgrupos del grupo
+  </h1>
+  <div mat-dialog-content>
+    ¿Esta seguro que desea remover {{subgroupsLength == 1 ? 'el subgrupo' : 'los subgrupos seleccionados'}} del grupo?
+  </div>
+  <div mat-dialog-actions align="end" >
+    <button mat-button mat-dialog-close>No, Cancelar</button>
+    <button mat-raised-button color="warn" cdkFocusInitial [disabled]="subgroupsLength === 0" (click)="handleDeleteSubgroupsMembers()">Si, remover {{subgroupsLength == 1 ? 'subgrupo' : 'subgrupos'}}</button>
+  </div>
+</ng-container>

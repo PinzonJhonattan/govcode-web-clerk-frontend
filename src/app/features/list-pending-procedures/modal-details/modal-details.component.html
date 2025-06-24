@@ -1,0 +1,13 @@
+<mat-card class="modal-card">
+    <mat-card-header class="modal-task-pending-detail-header">
+        <mat-card-title class="m-0">{{ data.name }}</mat-card-title>
+        <mat-card-subtitle class="m-0">{{ data.typeRequest }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="modal-task-pending-detail-content">
+        <div class="details-container">
+            <div class="detail-item" *ngFor="let item of details">
+                <strong>{{ item.label }}:</strong> {{ item.value }}
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

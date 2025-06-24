@@ -1,0 +1,46 @@
+<div class="flex justify-center p-6" *ngIf="loading">
+  <mat-spinner [diameter]="30"></mat-spinner>
+</div>
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div
+      [class.container]="layoutCtrl.value === 'boxed'"
+      [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+      class="w-full flex flex-col sm:flex-row justify-between"
+    >
+      <div>
+        <h1 class="title mt-0 mb-1 text-[1.5rem]">Reportes de los trámites</h1>
+        <vex-breadcrumbs [crumbs]="['Reportes']"></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+  <vex-page-layout-content
+    [class.container]="layoutCtrl.value === 'boxed'"
+    [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+  >
+    <div class="-mt-20">
+      <mat-card *ngIf="!loading" class="p-2">
+        <div class="text-center p-gutter  header">
+          <mat-form-field class="w-full max-w-[500px]" >
+            <mat-label>Tipo de reportes*</mat-label>
+
+            <mat-select (selectionChange)="onChangeTipoReporteFiltro($event.value)">
+              <mat-option *ngFor="let option of tipo_reporte_filtros" [value]="option">{{ option.Name }}</mat-option>
+            </mat-select>
+            <mat-hint>Seleccione el tipo de reporte que desea visualizar</mat-hint>
+          </mat-form-field>
+          <div class="mt-[2rem]">
+            <app-dynamic-report [jsonFormData]="formData" [urlReport]="urlReport"></app-dynamic-report>
+          </div>
+
+        </div>
+      </mat-card>
+    </div>
+
+
+  </vex-page-layout-content>
+
+</vex-page-layout>
+
+
+

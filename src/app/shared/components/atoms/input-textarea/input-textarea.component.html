@@ -1,0 +1,15 @@
+<mat-form-field
+  class="mat-field-container w-full" appearance="outline"
+>
+  <mat-label>{{label}}</mat-label>
+  <textarea
+    [formControl]="fieldControl"
+    [placeholder]="placeholder"
+    [name]="name"
+    [rows]="rows"
+    [readonly]="readonly"
+    matInput
+  ></textarea>
+  <mat-error class="font-bold" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error></mat-form-field>

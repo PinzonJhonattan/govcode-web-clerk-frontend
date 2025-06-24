@@ -1,0 +1,20 @@
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de ciudadanos</h2>
+            <vex-breadcrumbs [crumbs]="['Administración de Ciudadanos']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Lista de ciudadanos">
+                <div class="pt-2">
+                    <app-list-of-citizens [comesFromCreateForm]="comesFromCreateForm"></app-list-of-citizens>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

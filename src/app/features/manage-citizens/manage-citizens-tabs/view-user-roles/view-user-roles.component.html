@@ -1,0 +1,17 @@
+<h1 mat-dialog-title> Lista de roles
+</h1>
+<div mat-dialog-content>
+  <div class="pb-5">
+    <app-complex-table
+      nameTable="Roles del usuario"
+      [stateData]="stateLoadRoles"
+      [columns]="columnsRoles"
+      [dataSourceTable]="dataTableRoles"
+      [messageNotFound]="'No se han encontrado roles asociados a este usuario'"
+    ></app-complex-table>
+  </div>
+</div>
+<div mat-dialog-actions align="end" >
+  <button mat-button mat-dialog-close>Cerrar</button>
+</div>
+

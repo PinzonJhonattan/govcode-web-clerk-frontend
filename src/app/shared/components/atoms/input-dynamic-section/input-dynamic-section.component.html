@@ -1,0 +1,20 @@
+<div [ngClass]="{ 'px-[16px]' : levelSection > 1}">
+  <div class="mb-6">
+    <ng-container *ngFor="let section of sections; let index = index">
+      <h2 class="h2-tipografy font-bold mb-4"
+          *ngIf="titleSection">{{titleSection.replace('${index}', index + 1 + '')}}</h2>
+      <div class="mb-4">
+        <div class="mb-6">
+          <ng-container *ngTemplateOutlet="template; context: { components : section }"></ng-container>
+        </div>
+        <button mat-raised-button type="button" color="warn" (click)="removeSection(index)" *ngIf="!readonly">
+          <mat-icon svgIcon="mat:remove" class="icon-xs mr-1 ml-0"></mat-icon>
+          {{removeButtonText || 'Eliminar'}}</button>
+      </div>
+    </ng-container>
+  </div>
+  <button mat-raised-button type="button" color="primary" (click)="addSection()"
+          *ngIf="sections.length < limitSections && !readonly">
+    <mat-icon svgIcon="mat:add" class="icon-xs mr-1 ml-0"></mat-icon>
+    {{addButtonText || 'Agregar'}}</button>
+</div>

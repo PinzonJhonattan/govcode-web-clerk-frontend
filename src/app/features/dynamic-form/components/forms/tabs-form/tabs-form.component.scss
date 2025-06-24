@@ -1,0 +1,19 @@
+.row-components-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  flex-wrap: wrap;
+}
+
+.row-components {
+  display: flex;
+  flex-direction: row;
+  column-gap: 32px;;
+  row-gap: 24px;
+  width: 100%;
+}
+
+.row-components.mobile{
+  flex-direction: column;
+  column-gap: 0;;
+}

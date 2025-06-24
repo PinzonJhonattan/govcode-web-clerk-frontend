@@ -1,0 +1,24 @@
+<div
+  class="relative rounded-md border border-primary bg-gray-50 p-4 shadow-md  text-center h-full "
+>
+  <label
+    [for]="label"
+    class="flex flex-col items-center gap-2"
+  >
+    <mat-icon
+      class="icon-2xl text-primary  mr-1"
+      svgIcon="mat:file_present"
+    ></mat-icon>
+    <span class="text-gray-600 font-medium text-paragraph">{{label}}</span>
+    <a
+      class="text-md max-w-full break-words cursor-pointer flex items-center"
+      (click)="getDocument()"
+    >
+      <mat-icon
+        class="icon-xs text-primary  mr-1"
+        svgIcon="mat:visibility"
+      ></mat-icon>
+      <span class="underline underline-offset-2 hover:text-primary">Ver Documento</span>
+    </a>
+  </label>
+</div>

@@ -1,0 +1,16 @@
+<div class="input-checkbox-list-container" [ngClass]="{disabled : fieldControl.disabled, 'pointer-events-none' : readonly}">
+  <label *ngIf="label" class="block input-checkbox-list-label mb-4" [for]="name">{{label}}  <span *ngIf="fieldControl?.hasValidator(Validators.required)">*</span></label>
+  <p *ngIf="description" class="input-checkbox-description mb-4 text-xs">
+    {{description}}
+  </p>
+  <mat-selection-list [(ngModel)]="selectedValues" (ngModelChange)="onGroupsChange($event)" class="input-checkbox-list" color="primary">
+    <div class="grid grid-cols-1" [ngClass]="chooseNumColumns">
+      <mat-list-option *ngFor="let option of options" [value]="sendLabels ? option.label : option.value" [ngClass]="'list-option'" [checkboxPosition]="'before'" >
+        {{option?.label}}
+      </mat-list-option>
+    </div>
+  </mat-selection-list>
+  <mat-error class="font-bold mt-4" *ngIf="fieldControl.invalid && fieldControl.touched">
+    <span>{{getErrorMessage(fieldControl)}}</span>
+  </mat-error>
+</div>

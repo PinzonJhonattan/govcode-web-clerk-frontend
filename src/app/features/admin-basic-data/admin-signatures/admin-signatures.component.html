@@ -1,0 +1,20 @@
+<vex-page-layout>
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de firmas digitales</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Subida de firmas digitales']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Firmas digitales" *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_VIEW_SIGNATURES]">
+                    <app-list-of-signatures [comesFromCreateForm]="comesFromCreateForm"></app-list-of-signatures>
+            </mat-tab>
+            <mat-tab label="Crear firmas digitales" *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_CREATE_TEMPLATES]">
+                    <app-form-signatures (formSubmitted)="handleFormSubmitted()"></app-form-signatures>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

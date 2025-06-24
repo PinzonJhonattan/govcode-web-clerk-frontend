@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+}
+.table-section {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: auto;
+}
+td.mat-column-action {
+  width: 10px;
+  padding-right: 8px;
+}
+td, th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+td.result-component{
+  padding: 0 !important;
+}

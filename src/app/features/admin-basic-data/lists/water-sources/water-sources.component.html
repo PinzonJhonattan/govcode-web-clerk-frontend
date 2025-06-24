@@ -1,0 +1,26 @@
+<p>water-sources works!</p>
+<vex-page-layout>
+
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0">Lista de fuentes de agua</h2>
+            <vex-breadcrumbs [crumbs]="['Administración', 'Administración datos básicos', 'Fuentes de agua']"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+
+    <vex-page-layout-content class="vex-tabs p-0 container">
+        <mat-tab-group #myTabGroup>
+            <mat-tab label="Fuentes de agua">
+                <div style="padding-top: 24px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+                    <app-list-of-water-sources [comesFromCreateForm]="comesFromCreateForm"></app-list-of-water-sources>
+                </div>
+            </mat-tab>
+            <mat-tab label="Crear fuente de agua">
+                <div class="p-12">
+                    <app-create-water-sources (formSubmitted)="handleFormSubmitted()"></app-create-water-sources>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </vex-page-layout-content>
+
+</vex-page-layout>

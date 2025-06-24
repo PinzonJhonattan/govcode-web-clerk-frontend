@@ -1,0 +1,81 @@
+<div>
+  <ul class="flex flex-wrap gap-3 px-4 pt-4 mb-3 items-center">
+    <li>
+      <button (click)="actualGroupsOpen.length > 0 && changeToRootGroup()"
+              [ngClass]="[actualGroupsOpen.length > 0 ? 'text-primary hover:underline' : 'text-lg pointer-events-none']">
+        Grupos raiz
+      </button>
+    </li>
+    <li *ngFor="let actualGroup of actualGroupsOpen; index as indexGroup" class="flex items-center gap-3">
+      <mat-icon svgIcon="mat:keyboard_arrow_right" class="icon-xs w-[0.8rem] h-[0.8rem]"></mat-icon>
+      <button *ngIf="indexGroup != actualGroupsOpen.length - 1" class="text-primary hover:underline"
+              (click)="changeToIntermediateGroup(actualGroup, indexGroup)">
+        <span>
+          {{ actualGroup.name }}
+        </span>
+      </button>
+      <span *ngIf="indexGroup == actualGroupsOpen.length - 1">
+                {{ actualGroup.name }}
+      </span>
+    </li>
+  </ul>
+
+  <div class="dynamic-tab" *ngIf="!isChangingGroup && generalGroupInfo.getActualGroup(); else groupsList">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon svgIcon="mat:supervisor_account">group</mat-icon>
+          Miembros
+        </ng-template>
+        <app-members></app-members>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon svgIcon="mat:assignment_ind">assignment_ind</mat-icon>
+          Roles
+        </ng-template>
+        <app-roles></app-roles>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon svgIcon="mat:view_list">view_list</mat-icon>
+          Subgrupos
+        </ng-template>
+        <app-subgroups></app-subgroups>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <ng-template #groupsList>
+    <div class="py-5 px-4">
+      <div class="flex flex-col gap-5">
+        <div class="flex">
+          <ng-container *userHasPermissions="[APP_ROLES_PERMISSIONS.APP_CREATE_GROUPS]">
+            <button mat-raised-button color="primary" class="text-[0.8rem]" (click)="openCreateGroupModal()">
+              <mat-icon svgIcon="mat:group_add" class="mr-3 w-[1.2rem] text-[1.2rem] h-[1.2rem]"></mat-icon>
+              Crear Grupo
+            </button>
+          </ng-container>
+        </div>
+        <app-complex-table
+          nameTable=""
+          [stateData]="stateLoadGroups"
+          [columns]="columnsGroups"
+          [dataSourceTable]="dataTableGroups"
+          [actionsButton]="{
+            goToGroup : changeGroup.bind(this),
+            moveGroup : handleMoveSubGroup.bind(this),
+            editGroup  : handleEditGroupModal.bind(this),
+            deleteGroup : handleDeleteGroupModal.bind(this)
+        }"
+          [messageNotFound]="'No se han encontrado grupos'"
+          [hasReloadDataButton]="true"
+          messageReloadButton="Recargar"
+          (reloadDataEvent)="loadGroups()"
+        ></app-complex-table>
+      </div>
+    </div>
+
+  </ng-template>
+</div>
+
+

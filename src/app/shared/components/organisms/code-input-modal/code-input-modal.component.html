@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Codigo de verificación</h2>
+<mat-dialog-content class="mat-typography">
+  <ng-container *ngIf="statusGenerateCode == 'loading'">
+    <div class="flex flex-col items-center">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      <p class="mt-[24px]">Generando codigo de verificación...</p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="statusGenerateCode == 'success'">
+    <p class="mb-[24px]">Por favor, ingrese el código de verificación enviado a su correo electrónico para proceder con
+      la firma del documento.</p>
+    <code-input [codeLength]="6" (codeCompleted)="onCodeCompleted($event)" (codeChanged)="onCodeChanged($event)"></code-input>
+    <div class="mt-[24px]">
+      <p class="text-red-600" *ngIf="errorInputCodeUser">Codigo Erroneo. El codigo debe tener 6 números</p>
+      <div class="flex flex-col items-center gap-y-[12px] mb-[24px]" *ngIf="statusVerifyCode == 'loading'">
+        <mat-spinner [diameter]="30"></mat-spinner>
+        <p>Verificando codigo...</p>
+      </div>
+      <p class="text-red-600" *ngIf="statusVerifyCode == 'error'">El codigo enviado no es correcto, intentelo de nuevo</p>
+      <p>Si no ha generado un codigo o no ha llegado a su correo electrónico, por favor solicite la generación de un nuevo código.
+      </p>
+      <div class="flex flex-col items-center justify-center">
+        <button mat-raised-button color="primary"  (click)="generateCodeDocument()">Generar nuevo codigo</button>
+        <p class="mt-[12px]"><b>Nota:</b> El codigo es valido durante 5 minutos</p>
+      </div>
+
+    </div>
+  </ng-container>
+  <ng-container *ngIf="statusGenerateCode == 'error'">
+    <p class="mb-[24px]">Ha ocurrido un error al generar el codigo de verificación, <a class="text-blue-600 underline" (click)="generateCodeDocument()"
+                                                                                       href="javascript:void(0)">Solicite
+      un codigo de nuevo</a></p>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="statusGenerateCode == 'success'">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button (click)="verifyCodeDocument()" [disabled]="errorInputCodeUser || inputCodeUser.length < 6">Enviar codigo</button>
+</mat-dialog-actions>

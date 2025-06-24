@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+    - refs/heads/staging
+    - refs/heads/develop
+
+variables:
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/staging') }}:
+  - group: WebClerk STAGING
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+  - group: WebClerk DEV
+
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    fetchDepth: 1
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@5
+    displayName: 'Replace tokens in **/environment.dev.ts'
+    inputs:
+      rootDirectory: src/environments
+      targetFiles: '**/environment.dev.ts'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/staging'))
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@5
+    displayName: 'Replace tokens in **/environment.dev.ts'
+    inputs:
+      rootDirectory: src/environments
+      targetFiles: '**/environment.dev.ts'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  - task: Docker@2
+    displayName: buildAndPush Staging
+    inputs:
+      containerRegistry: 'SC Docker Hub Sasoftco'
+      repository: 'sasoftco/image-$(Build.Repository.Name)'
+      Dockerfile: DockerfileDev
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/staging'))
+  - task: Docker@2
+    displayName: buildAndPush Development
+    inputs:
+      containerRegistry: 'SC Docker Hub Sasoftco'
+      repository: 'sasoftco/image-$(Build.Repository.Name)'
+      Dockerfile: DockerfileDev
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))

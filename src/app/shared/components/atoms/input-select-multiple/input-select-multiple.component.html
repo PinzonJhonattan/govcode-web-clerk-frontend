@@ -1,0 +1,13 @@
+<div class="input-select-multiple-container" [ngClass]="{'pointer-events-none' : readonly}">
+  <mat-form-field class="mat-field-container w-full" appearance="outline">
+    <mat-label>{{label}}</mat-label>
+    <mat-select [placeholder]="label" [(ngModel)]="selectedValues" (ngModelChange)="onGroupsChange($event)"
+                multiple>
+      <mat-option *ngFor="let option of options"
+                  [value]="sendLabels ? option.label : option.value">{{option.label}}</mat-option>
+    </mat-select>
+    <mat-error class="font-bold" *ngIf="fieldControl.invalid && fieldControl.touched">
+      <span>{{getErrorMessage(fieldControl)}}</span>
+    </mat-error>
+  </mat-form-field>
+</div>

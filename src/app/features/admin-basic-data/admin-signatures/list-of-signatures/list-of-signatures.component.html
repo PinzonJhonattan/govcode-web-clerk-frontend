@@ -1,0 +1,18 @@
+<vex-page-layout>
+    <vex-page-layout-content
+        [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+    >
+      <app-complex-table
+        nameTable="Plantillas"
+        [stateData]="state"
+        [columns]="columns"
+        [dataSourceTable]="dataTableSignatures"
+        [messageNotFound]="'No se han encontrado firmas digitales'"
+        (deleteEvent)="handleDeleteEvent($event)"
+        [hasReloadDataButton]="true"
+        [messageReloadButton]="'Actualizar Firmas'"
+        (reloadDataEvent)="getSignaturesList()"
+      ></app-complex-table>
+    </vex-page-layout-content>
+</vex-page-layout>

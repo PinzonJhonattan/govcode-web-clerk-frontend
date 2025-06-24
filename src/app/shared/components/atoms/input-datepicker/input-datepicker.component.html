@@ -1,0 +1,20 @@
+<div>
+  <mat-form-field
+    class="mat-field-container w-full" appearance="outline" color="primary"
+  >
+    <mat-label>{{label}}</mat-label>
+    <input matInput [formControl]="fieldControl" [matDatepicker]="picker" class="ng-trim-ignore"
+           [placeholder]="placeholder" (dateChange)="onDateChange($event)" />
+    <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="readonly"></mat-datepicker-toggle>
+    <mat-datepicker #picker>
+      <mat-datepicker-actions>
+        <button mat-button matDatepickerCancel>Cancelar</button>
+        <button mat-raised-button color="primary" matDatepickerApply>Aplicar</button>
+      </mat-datepicker-actions>
+    </mat-datepicker>
+    <mat-error class="font-bold" *ngIf="fieldControl.invalid && fieldControl.touched">
+      <span>{{getErrorMessage(fieldControl)}}</span>
+    </mat-error>
+  </mat-form-field>
+
+</div>

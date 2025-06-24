@@ -1,0 +1,26 @@
+.groups-container {
+  @apply flex flex-wrap-reverse flex-row gap-5;
+  @apply bg-[#F5F7F8];
+}
+
+@media (max-width: 1200px) {
+  .groups-container{
+    @apply flex flex-col-reverse;
+  }
+}
+
+.groups-container .list-groups {
+  min-width: 500px;
+  @apply flex-[3];
+  width: 100%;
+  @apply bg-white;
+  @apply px-6;
+}
+
+.groups-container .specific-group {
+  @apply flex-[5];
+  @apply w-[50%];
+  width: 100%;
+  @apply bg-white;
+
+}

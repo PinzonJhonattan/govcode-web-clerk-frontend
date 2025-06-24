@@ -1,0 +1,88 @@
+<mat-card *ngIf="jsonFormData">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-wrap justify-center gap-2">
+      <ng-container *ngFor="let control of jsonFormData.dashboardFilters">
+        <mat-form-field class="full-width" *ngIf="[
+                    'text',
+                    'number',
+                ].includes(control.type)">
+          <mat-label>{{ control.name }}</mat-label>
+          <input matInput [type]="control.type" [formControlName]="control.key" class="m-0"
+                 [value]="control.defaultValue">
+          <mat-select *ngIf="control.type === 'select'" [formControlName]="control.key">
+            <div *ngFor="let option of control.values">
+              <mat-option [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width" *ngIf="control.type == 'select'">
+          <mat-label>{{ control.name }}</mat-label>
+          <mat-select *ngIf="control.type === 'select'" [formControlName]="control.key">
+            <div *ngFor="let option of control.values">
+              <mat-option [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="control.type == 'date'">
+          <mat-label>{{ control.name }}</mat-label>
+          <input matInput [matDatepicker]="picker" [formControlName]="control.key" [value]="control.defaultValue">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </ng-container>
+    </div>
+
+    <button mat-raised-button color="primary" class="form-submit-button" type="submit">Generar Reporte</button>
+  </form>
+
+  <div class="flex justify-center p-6" *ngIf="loading">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+  <div *ngIf="showDynamicTable">
+    <br>
+    <br>
+    <p style="font-weight: bold; font-size: 30px;">
+      Reporte Generado
+    </p>
+    <div class="flex flex-col gap-4 mt-[32px]">
+      <div class="pr-3">
+        {{ reportData.period }}
+      </div>
+      <div>
+        <span class="font-bold">Total datos</span>: {{ totalOfProcedures }}
+      </div>
+    </div>
+    <div class="my-[16px]" *ngIf="totalOfProcedures > 0">
+      <div class="view-report my-[32px]">
+        <app-view-report
+                         extensionToShow="pdf" [urlReport]="reportDTO.urlReport"
+                         [parameters]="parametrosSinModificar" [showFile]="false"></app-view-report>
+      </div>
+      <app-complex-table
+        [backgroundColorTab]="colores"
+        *ngIf="reportData.procedures" [nameTable]="reportData.title" [stateData]="state"
+        [columns]="columnsReport" [dataSourceTable]="listOfProcedures"
+        [messageNotFound]="'No se han encontrado tipos de identificación'">
+      </app-complex-table>
+    </div>
+    <div class="view-report my-[32px]">
+      <app-view-report extensionToShow="pdf" [urlReport]="reportDTO.urlReport"
+                       [parameters]="parametrosSinModificar" [showFile]="false"></app-view-report>
+    </div>
+    <div class="mb-4">
+      <hr>
+    </div>
+    <div *ngIf="totalOfProcedures > 0"
+         style="display: flex; align-items: center; justify-content: center; margin-top: 25px;">
+      <app-report-charts
+        [listOfProcedures]="listOfProcedures"
+        [noFiltersColumnsCharts]="noFiltersColumnsCharts"
+        [columnHeaders]="columnHeaders">
+      </app-report-charts>
+    </div>
+  </div>
+</mat-card>
